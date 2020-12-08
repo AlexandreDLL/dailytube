@@ -16,11 +16,30 @@
   color: #21a65f !important;
 }
 
+.dropdown-toggle.nav-link::after{
+  display: none;
+}
+
 .dropdown-menu{
   background-color: #2f2c2c !important;
   margin-left: -20px !important;
   margin-top: 7px !important;
   border-radius: 0 !important;
+  width: 100px;
+}
+
+.dropdown-menu{
+  font-size: 21px !important;
+  width: 230px !important;
+}
+
+.dropdown-item:hover{
+  background-color: #e2e2e2 !important;
+}
+
+.dropdown-title{
+  padding: 0.25rem 1.5rem;
+  color: #90a499 !important;
 }
 
 .logo-navbar{
