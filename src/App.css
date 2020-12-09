@@ -28,16 +28,24 @@
   width: 100px;
 }
 
+.dropdown-menu[aria-labelledby="dropdown-account"]{
+  margin-left: -130px !important;
+}
+
 .dropdown-menu{
   font-size: 21px !important;
   width: 230px !important;
+}
+
+.dropdown-item{
+  padding-right: 0 !important;
 }
 
 .dropdown-item:hover{
   background-color: #e2e2e2 !important;
 }
 
-.dropdown-title{
+.navbar-title{
   padding: 0.25rem 1.5rem;
   color: #90a499 !important;
 }
@@ -50,4 +58,17 @@
 .video-title{
   font-weight: bold;
   font-size: large;
+}
+
+/* Footer */
+.logo-footer{
+  width: 150px;
+}
+
+.navlink-footer:hover{
+  color: #84b79b !important;
+}
+
+.font-reseaux{
+  font-size: 24px;
 }

@@ -1,11 +1,7 @@
 body {
-  background-color: #e2e2e2;
+  background-color: #e2e2e2 !important;
 }
 
-main {
-  color: black;
-}
-
-footer {
-  background-color: rgb(73, 118, 170);
+li{
+  list-style: none !important;
 }
