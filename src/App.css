@@ -11,6 +11,12 @@
   color: #21a65f !important;
 }
 
+.btn-green{
+  background-color: #21a65f !important;
+  color: #2f2c2c !important;
+}
+
+
 /* Navbar */
 .nav-link.color-green{
   color: #21a65f !important;
@@ -54,11 +60,32 @@
   width: 50px;
 }
 
+
+/* Modal */
+.modal-content{
+  background-color: #2f2c2c !important;
+}
+
+.close{
+  color: #21a65f !important;
+  text-shadow: 0 1px 0 #81b389 !important;
+}
+
+a.nav-item.nav-link.active{
+  background-color: #21a65f;
+  color: #2f2c2c;
+}
+
+a.nav-item.nav-link{
+  color: #21a65f;
+}
+
 /* Accueil */
 .video-title{
   font-weight: bold;
   font-size: large;
 }
+
 
 /* Footer */
 .logo-footer{
