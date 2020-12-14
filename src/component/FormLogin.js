@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Button } from 'react-bootstrap';
+import UserContext from '../context/UserContext';
 
 class FormLogin extends Component {
+
+    static contextType = UserContext;
+
     render() {
         const loginSchema = Yup.object().shape({
             email: Yup.string()
@@ -19,27 +23,31 @@ class FormLogin extends Component {
                     initialValues={{
                         email: "",
                         password: ""
-                    }} 
-                    validationSchema={loginSchema} 
-                    onSubmit={ values => {
+                    }}
+                    validationSchema={loginSchema}
+                    onSubmit={values => {
                         console.log(values);
+                        const { setUser } = this.context;
+                        // let newUser = {nom: 'Didillon', prenom: 'Alexandre', role: 'admin'};
+                        let newUser = { nom: 'Didillon', prenom: 'Alexandre', role: 'user' };
+                        setUser(newUser);
                     }}
                 >
                     {({ errors, touched }) => (
                         <Form className="mt-4">
                             <div className="form-group">
                                 <Field type="email" name="email" className="form-control" placeholder="Votre email" />
-                                { errors.email && touched.email ? (
+                                {errors.email && touched.email ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.email}
+                                        <i className="far fa-times-circle"></i> {errors.email}
                                     </small>
                                 ) : null}
                             </div>
                             <div className="form-group mt-5">
                                 <Field type="password" name="password" className="form-control" placeholder="Votre mot de passe" />
-                                { errors.password && touched.password ? (
+                                {errors.password && touched.password ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.password}
+                                        <i className="far fa-times-circle"></i> {errors.password}
                                     </small>
                                 ) : null}
                             </div>

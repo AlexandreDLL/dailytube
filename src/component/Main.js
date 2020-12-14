@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Accueil, Abonnement, Chaine, Compte, MaChaine, Playlist, Upload, ErrorView } from './page';
 
 class Main extends Component {
@@ -27,6 +27,9 @@ class Main extends Component {
                     </Route>
                     <Route path="/upload">
                         <Upload />
+                    </Route>
+                    <Route path="/deconnexion">
+                        <Redirect to="/" />
                     </Route>
                     <Route path="*">
                         <ErrorView />

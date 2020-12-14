@@ -1,7 +1,9 @@
 import React from 'react';
 import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 import { FormLogin, FormRegister } from './index';
+import { Protected } from './Protected';
 
 class Header extends React.Component {
 
@@ -12,10 +14,16 @@ class Header extends React.Component {
         };
     }
 
+    static contextType = UserContext;
+
+    logout() {
+        const { setUser } = this.context;
+        setUser(null);
+    }
+
     render() {
         const handleClose = () => this.setState({ show: false });
         const handleShow = () => this.setState({ show: true });
-        let user = false;
 
         return (
             <>
@@ -50,12 +58,12 @@ class Header extends React.Component {
                     <Form inline className="m-auto w-50">
                         <FormControl type="text" placeholder="Recherche" className="mr-sm-2 w-75 m-auto" />
                     </Form>
-                    { !user &&
+                    <Protected noauth>
                         <Nav.Link role="button" onClick={handleShow}>
                             <i className="fas fa-user color-green" style={{ fontSize: 20 }}></i>
                         </Nav.Link>
-                    }
-                    { user &&
+                    </Protected>
+                    <Protected>
                         <NavDropdown title={<img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-navbar" />} id="dropdown-account" className="ml-auto">
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/compte" className="color-green text-decoration-none d-block">
@@ -73,12 +81,12 @@ class Header extends React.Component {
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/deconnexion" className="color-green text-decoration-none d-block">
+                                <Link to="/deconnexion" className="color-green text-decoration-none d-block" onClick={this.logout.bind(this)}>
                                     Se déconnecter
                                 </Link>
                             </NavDropdown.Item>
                         </NavDropdown>
-                    }
+                    </Protected>
                 </Navbar>
                 <Modal show={this.state.show} onHide={handleClose}>
                     <Modal.Header closeButton>

@@ -15,9 +15,9 @@ class FormRegister extends Component {
 
     render() {
         const supportedFormats = [
-            'image/jpg',
-            'image/jpeg',
-            'image/png'
+            'jpg',
+            'jpeg',
+            'png'
         ];
 
         const registerSchema = Yup.object().shape({
@@ -37,7 +37,7 @@ class FormRegister extends Component {
                 .test(
                     "fileFormat",
                     "Veuillez sélectionner un bon format d'image.",
-                    value => value && supportedFormats.includes(value.type)
+                    value => value !== undefined ? supportedFormats.includes(value.substring(value.lastIndexOf('.') + 1)) : true
                 ),
             email: Yup.string()
                 .email("Veuillez inscrire une adresse email valide.")
@@ -58,7 +58,7 @@ class FormRegister extends Component {
                         prenom: "",
                         pseudo: "",
                         dateNaissance: "",
-                        avatar: '',
+                        avatar: "",
                         email: "",
                         password: "",
                         confirmPassword: ""
@@ -74,7 +74,7 @@ class FormRegister extends Component {
                                 <Field name="nom" className="form-control" placeholder="Votre nom" />
                                 {errors.nom && touched.nom ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.nom}
+                                        <i className="far fa-times-circle"></i> {errors.nom}
                                     </small>
                                 ) : null}
                                 {this.showSuccess(errors, touched, "nom")}
@@ -83,7 +83,7 @@ class FormRegister extends Component {
                                 <Field name="prenom" className="form-control" placeholder="Votre prénom" />
                                 {errors.prenom && touched.prenom ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.prenom}
+                                        <i className="far fa-times-circle"></i> {errors.prenom}
                                     </small>
                                 ) : null}
                                 {this.showSuccess(errors, touched, "prenom")}
@@ -92,7 +92,7 @@ class FormRegister extends Component {
                                 <Field name="pseudo" className="form-control" placeholder="Votre pseudo" />
                                 {errors.pseudo && touched.pseudo ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.pseudo}
+                                        <i className="far fa-times-circle"></i> {errors.pseudo}
                                     </small>
                                 ) : null}
                                 {this.showSuccess(errors, touched, "pseudo")}
@@ -102,7 +102,7 @@ class FormRegister extends Component {
                                 <Field type="date" name="dateNaissance" className="form-control" placeholder="Votre date de naissance" />
                                 {errors.dateNaissance && touched.dateNaissance ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.dateNaissance}
+                                        <i className="far fa-times-circle"></i> {errors.dateNaissance}
                                     </small>
                                 ) : null}
                                 {this.showSuccess(errors, touched, "dateNaissance")}
@@ -111,10 +111,10 @@ class FormRegister extends Component {
                                 <label htmlFor="avatar" className="color-green" style={{margin: 0}}>Choisissez votre image de profil : *</label>
                                 <br/>
                                 <small className="color-green">Formats supportés : JPEG, JPG, PNG</small>
-                                <Field type="file" name="avatar" className="form-control" placeholder="Sélectionner votre avatar" />
+                                <Field type="file" name="avatar" className="form-control" placeholder="Sélectionner votre avatar" id="test" />
                                 {errors.avatar && touched.avatar ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.avatar}
+                                        <i className="far fa-times-circle"></i> {errors.avatar}
                                     </small>
                                 ) : null}
                                 {this.showSuccess(errors, touched, "avatar")}
@@ -123,7 +123,7 @@ class FormRegister extends Component {
                                 <Field type="email" name="email" className="form-control" placeholder="Votre email" />
                                 {errors.email && touched.email ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.email}
+                                        <i className="far fa-times-circle"></i> {errors.email}
                                     </small>
                                 ) : null}
                                 {this.showSuccess(errors, touched, "email")}
@@ -132,7 +132,7 @@ class FormRegister extends Component {
                                 <Field type="password" name="password" className="form-control" placeholder="Votre mot de passe" />
                                 {errors.password && touched.password ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.password}
+                                        <i className="far fa-times-circle"></i> {errors.password}
                                     </small>
                                 ) : null}
                                 {this.showSuccess(errors, touched, "password")}
@@ -141,7 +141,7 @@ class FormRegister extends Component {
                                 <Field type="password" name="confirmPassword" className="form-control" placeholder="Confirmer votre mot de passe" />
                                 {errors.confirmPassword && touched.confirmPassword ? (
                                     <small className="position-absolute text-danger">
-                                        <i class="far fa-times-circle"></i> {errors.confirmPassword}
+                                        <i className="far fa-times-circle"></i> {errors.confirmPassword}
                                     </small>
                                 ) : null}
                                 {this.showSuccess(errors, touched, "confirmPassword")}
