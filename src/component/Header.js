@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab } from 'react-bootstrap';
+import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import { FormLogin, FormRegister } from './index';
@@ -35,32 +35,34 @@ class Header extends React.Component {
                                 Accueil
                             </Link>
                         </NavDropdown.Item>
-                        <NavDropdown.Item className="my-2" as="div">
-                            <Link to="/abonnement" className="color-green text-decoration-none d-block">
-                                <i className="far fa-play-circle mr-2"></i>
-                                Abonnements
-                            </Link>
-                        </NavDropdown.Item>
-                        <NavDropdown.Item className="mt-2 mb-3" as="div">
-                            <Link to="/playlist" className="color-green text-decoration-none d-block">
-                                <i className="fas fa-film mr-2"></i>
-                                Playlists
-                            </Link>
-                        </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <Navbar.Text className="navbar-title">ABONNEMENTS</Navbar.Text>
-                        <NavDropdown.Item className="my-2" as="div">
-                            <Link to="/chaine" className="color-green text-decoration-none d-block">
-                                Liste abonnement
-                            </Link>
-                        </NavDropdown.Item>
+                        <Protected>
+                            <NavDropdown.Item className="my-2" as="div">
+                                <Link to="/abonnement" className="color-green text-decoration-none d-block">
+                                    <i className="far fa-play-circle mr-2"></i>
+                                    Abonnements
+                                </Link>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item className="mt-2 mb-3" as="div">
+                                <Link to="/playlist" className="color-green text-decoration-none d-block">
+                                    <i className="fas fa-film mr-2"></i>
+                                    Playlists
+                                </Link>
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <Navbar.Text className="navbar-title">ABONNEMENTS</Navbar.Text>
+                            <NavDropdown.Item className="my-2" as="div">
+                                <Link to="/chaine" className="color-green text-decoration-none d-block">
+                                    Liste abonnement
+                                </Link>
+                            </NavDropdown.Item>
+                        </Protected>
                     </NavDropdown>
                     <Form inline className="m-auto w-50">
                         <FormControl type="text" placeholder="Recherche" className="mr-sm-2 w-75 m-auto" />
                     </Form>
                     <Protected noauth>
-                        <Nav.Link role="button" onClick={handleShow}>
-                            <i className="fas fa-user color-green" style={{ fontSize: 20 }}></i>
+                        <Nav.Link role="button" onClick={handleShow} className="ml-auto" style={{ padding: "16px 30px" }}>
+                            <i className="fas fa-user color-green" style={{ fontSize: 32 }}></i>
                         </Nav.Link>
                     </Protected>
                     <Protected>
@@ -81,7 +83,7 @@ class Header extends React.Component {
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/deconnexion" className="color-green text-decoration-none d-block" onClick={this.logout.bind(this)}>
+                                <Link to="/" className="color-green text-decoration-none d-block" onClick={this.logout.bind(this)}>
                                     Se déconnecter
                                 </Link>
                             </NavDropdown.Item>
@@ -93,9 +95,12 @@ class Header extends React.Component {
                         <Modal.Title className="color-green">Connexion / Inscription</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <Alert variant='warning' show={false}>
+                            This is a warning alert—check it out!
+                        </Alert>
                         <Tabs defaultActiveKey="login" id="uncontrolled-tab-example">
                             <Tab eventKey="login" title="Connexion">
-                                <FormLogin />
+                                <FormLogin handleClick={handleClose} />
                             </Tab>
                             <Tab eventKey="register" title="Inscription">
                                 <FormRegister />

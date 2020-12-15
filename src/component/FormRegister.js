@@ -13,6 +13,14 @@ class FormRegister extends Component {
         return null;
     }
 
+    // moveAvatar(file){
+    //     const moveFile = require('move-file');
+    //     (async () => {
+    //         await moveFile(file, 'C:/wamp64/www/dailytube/public/asset/img/user/');
+    //         console.log('The file has been moved');
+    //     })();
+    // }
+
     render() {
         const supportedFormats = [
             'jpg',
@@ -66,6 +74,7 @@ class FormRegister extends Component {
                     validationSchema={registerSchema}
                     onSubmit={ values => {
                         console.log(values);
+                        // this.moveAvatar(values.avatar);
                     }}
                 >
                     {({ errors, touched }) => (
@@ -111,7 +120,7 @@ class FormRegister extends Component {
                                 <label htmlFor="avatar" className="color-green" style={{margin: 0}}>Choisissez votre image de profil : *</label>
                                 <br/>
                                 <small className="color-green">Formats supportés : JPEG, JPG, PNG</small>
-                                <Field type="file" name="avatar" className="form-control" placeholder="Sélectionner votre avatar" id="test" />
+                                <Field type="file" name="avatar" className="form-control" placeholder="Sélectionner votre avatar" id="avatar-input" />
                                 {errors.avatar && touched.avatar ? (
                                     <small className="position-absolute text-danger">
                                         <i className="far fa-times-circle"></i> {errors.avatar}

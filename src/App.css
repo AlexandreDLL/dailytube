@@ -29,12 +29,13 @@
 .dropdown-menu{
   background-color: #2f2c2c !important;
   margin-left: -20px !important;
-  margin-top: 7px !important;
+  margin-top: 15px !important;
   border-radius: 0 !important;
   width: 100px;
 }
 
 .dropdown-menu[aria-labelledby="dropdown-account"]{
+  margin-top: 7px !important;
   margin-left: -130px !important;
 }
 

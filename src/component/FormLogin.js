@@ -31,6 +31,7 @@ class FormLogin extends Component {
                         // let newUser = {nom: 'Didillon', prenom: 'Alexandre', role: 'admin'};
                         let newUser = { nom: 'Didillon', prenom: 'Alexandre', role: 'user' };
                         setUser(newUser);
+                        this.props.handleClick();
                     }}
                 >
                     {({ errors, touched }) => (

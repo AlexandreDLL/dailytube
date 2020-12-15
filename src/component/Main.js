@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Accueil, Abonnement, Chaine, Compte, MaChaine, Playlist, Upload, ErrorView } from './page';
+import ProtectedRoute from './ProtectedRoute';
 
 class Main extends Component {
     render() {
@@ -10,27 +11,14 @@ class Main extends Component {
                     <Route exact path="/">
                         <Accueil />
                     </Route>
-                    <Route path="/abonnement">
-                        <Abonnement />
-                    </Route>
-                    <Route path="/playlist">
-                        <Playlist />
-                    </Route>
+                    <ProtectedRoute path="/abonnement" component={Abonnement} />
+                    <ProtectedRoute path="/playlist" component={Playlist} />
                     <Route path="/chaine">
                         <Chaine />
                     </Route>
-                    <Route path="/compte">
-                        <Compte />
-                    </Route>
-                    <Route path="/machaine">
-                        <MaChaine />
-                    </Route>
-                    <Route path="/upload">
-                        <Upload />
-                    </Route>
-                    <Route path="/deconnexion">
-                        <Redirect to="/" />
-                    </Route>
+                    <ProtectedRoute path="/compte" component={Compte} />
+                    <ProtectedRoute path="/machaine" component={MaChaine} />
+                    <ProtectedRoute path="/upload" component={Upload} />
                     <Route path="*">
                         <ErrorView />
                     </Route>
