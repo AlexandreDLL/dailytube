@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab, Alert } from 'react-bootstrap';
+import { FaBars, FaFilm, FaHome, FaPlayCircle, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import { FormLogin, FormRegister } from './index';
@@ -28,62 +29,95 @@ class Header extends React.Component {
         return (
             <>
                 <Navbar bg="black" expand="lg" fixed="top">
-                    <NavDropdown title={<i className="fas fa-bars color-green" style={{ fontSize: 32 }}></i>} id="basic-nav-dropdown">
+                    <NavDropdown title={<FaBars className="color-green" style={{ fontSize: 32 }}/>} id="basic-nav-dropdown">
                         <NavDropdown.Item className="my-2" as="div">
-                            <Link to="/" className="color-green text-decoration-none d-block">
-                                <i className="fas fa-home mr-2"></i>
+                            <Link to="/" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                <FaHome className="mr-2"/>
                                 Accueil
                             </Link>
                         </NavDropdown.Item>
                         <Protected>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/abonnement" className="color-green text-decoration-none d-block">
-                                    <i className="far fa-play-circle mr-2"></i>
+                                <Link to="/abonnement" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                    <FaPlayCircle className="mr-2"/>
                                     Abonnements
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="mt-2 mb-3" as="div">
-                                <Link to="/playlist" className="color-green text-decoration-none d-block">
-                                    <i className="fas fa-film mr-2"></i>
+                                <Link to="/playlist" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                    <FaFilm className="mr-2"/>
                                     Playlists
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <Navbar.Text className="navbar-title">ABONNEMENTS</Navbar.Text>
-                            <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/chaine" className="color-green text-decoration-none d-block">
-                                    Liste abonnement
-                                </Link>
-                            </NavDropdown.Item>
+                            <div className="navbar-abonnement">
+                                <NavDropdown.Item className="my-2" as="div">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        Jean-Michel
+                                    </Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item className="my-2" as="div">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        Jean-Michel
+                                    </Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item className="my-2" as="div">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        Jean-Michel
+                                    </Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item className="my-2" as="div">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        Jean-Michel
+                                    </Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item className="my-2" as="div">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        Jean-Michel
+                                    </Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item className="my-2" as="div">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        Jean-Michel
+                                    </Link>
+                                </NavDropdown.Item>
+                            </div>
                         </Protected>
                     </NavDropdown>
                     <Form inline className="m-auto w-50">
-                        <FormControl type="text" placeholder="Recherche" className="mr-sm-2 w-75 m-auto" />
+                        <FormControl type="text" placeholder="Recherche" className="mr-sm-2 w-75 m-auto" style={{backgroundColor: "#e2e2e2"}} />
                     </Form>
                     <Protected noauth>
                         <Nav.Link role="button" onClick={handleShow} className="ml-auto" style={{ padding: "16px 30px" }}>
-                            <i className="fas fa-user color-green" style={{ fontSize: 32 }}></i>
+                            <FaUser className="color-green" style={{ fontSize: 32 }}/>
                         </Nav.Link>
                     </Protected>
                     <Protected>
                         <NavDropdown title={<img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-navbar" />} id="dropdown-account" className="ml-auto">
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/compte" className="color-green text-decoration-none d-block">
+                                <Link to="/compte" className="color-green text-decoration-none d-block d-flex align-items-center">
                                     Gérer mon compte
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/machaine" className="color-green text-decoration-none d-block">
+                                <Link to="/machaine" className="color-green text-decoration-none d-block d-flex align-items-center">
                                     Gérer ma chaîne
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/upload" className="color-green text-decoration-none d-block">
+                                <Link to="/upload" className="color-green text-decoration-none d-block d-flex align-items-center">
                                     Upload une vidéo
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/" className="color-green text-decoration-none d-block" onClick={this.logout.bind(this)}>
+                                <Link to="/" className="color-green text-decoration-none d-block d-flex align-items-center" onClick={this.logout.bind(this)}>
                                     Se déconnecter
                                 </Link>
                             </NavDropdown.Item>

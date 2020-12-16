@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class Footer extends Component {
     render() {
         return (
-            <Navbar bg="black" expand="lg" fixed="bottom" className="d-flex justify-content-between">
+            <Navbar bg="black" expand="lg" className="d-flex justify-content-between">
                 <div>
                     <img src="asset/img/logo/logo_DailyTube.png" alt="Logo" className="logo-footer" />
                     <p className="color-green">© 2020 DailyTube</p>

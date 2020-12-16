@@ -3,6 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Button } from 'react-bootstrap';
 import UserContext from '../context/UserContext';
+import { FaTimesCircle } from 'react-icons/fa';
 
 class FormLogin extends Component {
 
@@ -39,16 +40,16 @@ class FormLogin extends Component {
                             <div className="form-group">
                                 <Field type="email" name="email" className="form-control" placeholder="Votre email" />
                                 {errors.email && touched.email ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.email}
+                                    <small className="position-absolute text-danger d-flex align-items-center">
+                                        <FaTimesCircle />&nbsp;{errors.email}
                                     </small>
                                 ) : null}
                             </div>
                             <div className="form-group mt-5">
                                 <Field type="password" name="password" className="form-control" placeholder="Votre mot de passe" />
                                 {errors.password && touched.password ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.password}
+                                    <small className="position-absolute text-danger d-flex align-items-center">
+                                        <FaTimesCircle />&nbsp;{errors.password}
                                     </small>
                                 ) : null}
                             </div>

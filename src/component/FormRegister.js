@@ -2,13 +2,24 @@ import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Button } from 'react-bootstrap';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 class FormRegister extends Component {
-    showSuccess(errors, touched, name){
-        if(!errors[name] && touched[name]) {
-            return (<small className="position-absolute text-success">
-                <i className="far fa-check-circle"></i> Champ valide
-            </small>);
+
+    showStatutMsg(errors, touched, name) {
+        if (errors[name] && touched[name]) {
+            return (
+                <small className="position-absolute text-danger">
+                    <FaTimesCircle />&nbsp;{errors[name]}
+                </small>
+            );
+        }
+        if (!errors[name] && touched[name]) {
+            return (
+                <small className="position-absolute text-success">
+                    <FaCheckCircle />&nbsp;Champ valide
+                </small>
+            );
         }
         return null;
     }
@@ -72,7 +83,7 @@ class FormRegister extends Component {
                         confirmPassword: ""
                     }}
                     validationSchema={registerSchema}
-                    onSubmit={ values => {
+                    onSubmit={values => {
                         console.log(values);
                         // this.moveAvatar(values.avatar);
                     }}
@@ -81,79 +92,39 @@ class FormRegister extends Component {
                         <Form className="mt-4">
                             <div className="form-group">
                                 <Field name="nom" className="form-control" placeholder="Votre nom" />
-                                {errors.nom && touched.nom ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.nom}
-                                    </small>
-                                ) : null}
-                                {this.showSuccess(errors, touched, "nom")}
+                                {this.showStatutMsg(errors, touched, "nom")}
                             </div>
                             <div className="form-group mt-5">
                                 <Field name="prenom" className="form-control" placeholder="Votre prénom" />
-                                {errors.prenom && touched.prenom ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.prenom}
-                                    </small>
-                                ) : null}
-                                {this.showSuccess(errors, touched, "prenom")}
+                                {this.showStatutMsg(errors, touched, "prenom")}
                             </div>
                             <div className="form-group mt-5">
                                 <Field name="pseudo" className="form-control" placeholder="Votre pseudo" />
-                                {errors.pseudo && touched.pseudo ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.pseudo}
-                                    </small>
-                                ) : null}
-                                {this.showSuccess(errors, touched, "pseudo")}
+                                {this.showStatutMsg(errors, touched, "pseudo")}
                             </div>
                             <div className="form-group mt-4">
                                 <label htmlFor="dateNaissance" className="color-green">Votre date de naissance :</label>
                                 <Field type="date" name="dateNaissance" className="form-control" placeholder="Votre date de naissance" />
-                                {errors.dateNaissance && touched.dateNaissance ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.dateNaissance}
-                                    </small>
-                                ) : null}
-                                {this.showSuccess(errors, touched, "dateNaissance")}
+                                {this.showStatutMsg(errors, touched, "dateNaissance")}
                             </div>
                             <div className="form-group mt-4">
-                                <label htmlFor="avatar" className="color-green" style={{margin: 0}}>Choisissez votre image de profil : *</label>
-                                <br/>
+                                <label htmlFor="avatar" className="color-green" style={{ margin: 0 }}>Choisissez votre image de profil : *</label>
+                                <br />
                                 <small className="color-green">Formats supportés : JPEG, JPG, PNG</small>
                                 <Field type="file" name="avatar" className="form-control" placeholder="Sélectionner votre avatar" id="avatar-input" />
-                                {errors.avatar && touched.avatar ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.avatar}
-                                    </small>
-                                ) : null}
-                                {this.showSuccess(errors, touched, "avatar")}
+                                {this.showStatutMsg(errors, touched, "avatar")}
                             </div>
                             <div className="form-group mt-5">
                                 <Field type="email" name="email" className="form-control" placeholder="Votre email" />
-                                {errors.email && touched.email ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.email}
-                                    </small>
-                                ) : null}
-                                {this.showSuccess(errors, touched, "email")}
+                                {this.showStatutMsg(errors, touched, "email")}
                             </div>
                             <div className="form-group mt-5">
                                 <Field type="password" name="password" className="form-control" placeholder="Votre mot de passe" />
-                                {errors.password && touched.password ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.password}
-                                    </small>
-                                ) : null}
-                                {this.showSuccess(errors, touched, "password")}
+                                {this.showStatutMsg(errors, touched, "password")}
                             </div>
                             <div className="form-group mt-5">
                                 <Field type="password" name="confirmPassword" className="form-control" placeholder="Confirmer votre mot de passe" />
-                                {errors.confirmPassword && touched.confirmPassword ? (
-                                    <small className="position-absolute text-danger">
-                                        <i className="far fa-times-circle"></i> {errors.confirmPassword}
-                                    </small>
-                                ) : null}
-                                {this.showSuccess(errors, touched, "confirmPassword")}
+                                {this.showStatutMsg(errors, touched, "confirmPassword")}
                             </div>
                             <Button variant="green" type="submit" className="w-100 mt-4">
                                 Inscription
