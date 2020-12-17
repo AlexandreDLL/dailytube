@@ -11,6 +11,31 @@
   color: #21a65f !important;
 }
 
+.btn-green{
+  background-color: #21a65f !important;
+  color: #2f2c2c !important;
+}
+
+::-webkit-scrollbar{
+  width: 15px;
+  background-color: #2f2c2c;
+}
+
+::-webkit-scrollbar-track{
+  border-radius: 15px;
+  background-color: #555151;
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: #21a65f;
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background-color: #1b834b;
+}
+
+
 /* Navbar */
 .nav-link.color-green{
   color: #21a65f !important;
@@ -23,31 +48,96 @@
 .dropdown-menu{
   background-color: #2f2c2c !important;
   margin-left: -20px !important;
-  margin-top: 7px !important;
+  margin-top: 15px !important;
   border-radius: 0 !important;
   width: 100px;
+}
+
+.dropdown-menu[aria-labelledby="dropdown-account"]{
+  margin-top: 7px !important;
+  margin-left: -130px !important;
 }
 
 .dropdown-menu{
   font-size: 21px !important;
   width: 230px !important;
+  z-index: 1050 !important;
+}
+
+.dropdown-item{
+  padding-right: 0 !important;
 }
 
 .dropdown-item:hover{
   background-color: #e2e2e2 !important;
 }
 
-.dropdown-title{
+.navbar-title{
   padding: 0.25rem 1.5rem;
   color: #90a499 !important;
+}
+
+.navbar-abonnement{
+  overflow: auto;
+  max-height: 250px;
+}
+
+.navbar-abonnement::-webkit-scrollbar{
+  width: 10px;
+}
+
+.logo-chaine{
+  width: 27px;
 }
 
 .logo-navbar{
   width: 50px;
 }
 
+
+/* Modal */
+.modal-content{
+  background-color: #2f2c2c !important;
+}
+
+.close{
+  color: #21a65f !important;
+  text-shadow: 0 1px 0 #81b389 !important;
+}
+
+a.nav-item.nav-link.active{
+  background-color: #21a65f;
+  color: #2f2c2c;
+}
+
+a.nav-item.nav-link{
+  color: #21a65f;
+}
+
 /* Accueil */
 .video-title{
   font-weight: bold;
   font-size: large;
+}
+
+
+/* Footer */
+.logo-footer{
+  width: 150px;
+}
+
+.navlink-footer:hover{
+  color: #84b79b !important;
+}
+
+.font-reseaux{
+  font-size: 24px;
+}
+
+.logo-language{
+  width: 36px;
+}
+
+.logo-language:hover{
+  cursor: pointer;
 }
