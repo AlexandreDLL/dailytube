@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab, Alert } from 'react-bootstrap';
 import { FaBars, FaFilm, FaHome, FaPlayCircle, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import LanguageContext from '../context/LanguageContext';
 import UserContext from '../context/UserContext';
 import { FormLogin, FormRegister } from './index';
 import { Protected } from './Protected';
@@ -33,14 +34,18 @@ class Header extends React.Component {
                         <NavDropdown.Item className="my-2" as="div">
                             <Link to="/" className="color-green text-decoration-none d-block d-flex align-items-center">
                                 <FaHome className="mr-2"/>
-                                Accueil
+                                <LanguageContext.Consumer>
+                                    {({language}) => language === 'Français' ? 'Accueil' : 'Home'}
+                                </LanguageContext.Consumer>
                             </Link>
                         </NavDropdown.Item>
                         <Protected>
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/abonnement" className="color-green text-decoration-none d-block d-flex align-items-center">
                                     <FaPlayCircle className="mr-2"/>
-                                    Abonnements
+                                    <LanguageContext.Consumer>
+                                        {({language}) => language === 'Français' ? 'Abonnements' : 'Subcriptions'}
+                                    </LanguageContext.Consumer>
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="mt-2 mb-3" as="div">
@@ -50,7 +55,11 @@ class Header extends React.Component {
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <Navbar.Text className="navbar-title">ABONNEMENTS</Navbar.Text>
+                            <Navbar.Text className="navbar-title">
+                                <LanguageContext.Consumer>
+                                    {({language}) => language === 'Français' ? 'ABONNEMENTS' : 'SUBCRIPTIONS'}
+                                </LanguageContext.Consumer>
+                            </Navbar.Text>
                             <div className="navbar-abonnement">
                                 <NavDropdown.Item className="my-2" as="div">
                                     <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
@@ -103,22 +112,30 @@ class Header extends React.Component {
                         <NavDropdown title={<img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-navbar" />} id="dropdown-account" className="ml-auto">
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/compte" className="color-green text-decoration-none d-block d-flex align-items-center">
-                                    Gérer mon compte
+                                    <LanguageContext.Consumer>
+                                        {({language}) => language === 'Français' ? 'Gérer mon compte' : 'Manage my account'}
+                                    </LanguageContext.Consumer>
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/machaine" className="color-green text-decoration-none d-block d-flex align-items-center">
-                                    Gérer ma chaîne
+                                    <LanguageContext.Consumer>
+                                        {({language}) => language === 'Français' ? 'Gérer ma chaîne' : 'Manage my channel'}
+                                    </LanguageContext.Consumer>
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/upload" className="color-green text-decoration-none d-block d-flex align-items-center">
-                                    Upload une vidéo
+                                    <LanguageContext.Consumer>
+                                        {({language}) => language === 'Français' ? 'Upload une vidéo' : 'Upload a video'}
+                                    </LanguageContext.Consumer>
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/" className="color-green text-decoration-none d-block d-flex align-items-center" onClick={this.logout.bind(this)}>
-                                    Se déconnecter
+                                    <LanguageContext.Consumer>
+                                        {({language}) => language === 'Français' ? 'Se déconnecter' : 'Logout'}
+                                    </LanguageContext.Consumer>
                                 </Link>
                             </NavDropdown.Item>
                         </NavDropdown>

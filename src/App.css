@@ -133,3 +133,11 @@ a.nav-item.nav-link{
 .font-reseaux{
   font-size: 24px;
 }
+
+.logo-language{
+  width: 36px;
+}
+
+.logo-language:hover{
+  cursor: pointer;
+}

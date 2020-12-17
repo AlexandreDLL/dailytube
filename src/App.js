@@ -2,23 +2,25 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Header, Main, Footer } from './component';
 import { BrowserRouter as Router } from "react-router-dom";
-import { UserProvider } from './context';
+import { UserProvider, LanguageProvider } from './context';
 
 function App() {
   return (
     <div className="App">
       <UserProvider>
-        <Router>
-          <header>
-            <Header />
-          </header>
-          <main style={{ marginTop: 80 }}>
-            <Main />
-          </main>
-          <footer>
-            <Footer />
-          </footer>
-        </Router>
+        <LanguageProvider>
+          <Router>
+            <header>
+              <Header />
+            </header>
+            <main style={{ marginTop: 80 }}>
+              <Main />
+            </main>
+            <footer>
+              <Footer />
+            </footer>
+          </Router>
+        </LanguageProvider>
       </UserProvider>
     </div>
   );
