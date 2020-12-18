@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Header, Main, Footer } from './component';
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserProvider, LanguageProvider } from './context';
+import LanguageContext from './context/LanguageContext';
 
 function App() {
   return (
@@ -11,13 +12,21 @@ function App() {
         <LanguageProvider>
           <Router>
             <header>
-              <Header />
+              <LanguageContext.Consumer>
+                {({ language }) =>
+                  <Header language={language} />
+                }
+              </LanguageContext.Consumer>
             </header>
             <main style={{ marginTop: 80 }}>
               <Main />
             </main>
             <footer>
-              <Footer />
+              <LanguageContext.Consumer>
+                {({ language }) =>
+                  <Footer language={language} />
+                }
+              </LanguageContext.Consumer>
             </footer>
           </Router>
         </LanguageProvider>
