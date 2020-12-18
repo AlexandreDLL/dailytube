@@ -5,6 +5,22 @@ import LanguageContext from '../context/LanguageContext';
 
 class Footer extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            terms: {
+                presentation: 'Présentation',
+                droits: "Droits d'auteur",
+                contact: 'Nous contacter',
+                conditions: "Conditions d'utilisation",
+                confidentialite: 'Confidentialité',
+                regles: 'Règles et sécurité',
+                langue: 'Langue',
+                reseaux: 'Nos réseaux sociaux'
+            }
+        }
+    }
+
     static contextType = LanguageContext;
 
     handleClickLanguage(e){
@@ -12,9 +28,40 @@ class Footer extends Component {
         setLanguage(e.target.title);
     }
 
-    render() {
-        const { language } = this.context;
+    componentDidUpdate(prevProps) {
+        if (prevProps.language !== this.props.language) {
+            if (this.props.language === 'Français') {
+                this.setState({
+                    terms: {
+                        presentation: 'Présentation',
+                        droits: "Droits d'auteur",
+                        contact: 'Nous contacter',
+                        conditions: "Conditions d'utilisation",
+                        confidentialite: 'Confidentialité',
+                        regles: 'Règles et sécurité',
+                        langue: 'Langue',
+                        reseaux: 'Nos réseaux sociaux'
+                    }
+                });
+            }
+            else {
+                this.setState({
+                    terms: {
+                        presentation: 'Presentation',
+                        droits: "Copyright",
+                        contact: 'Contact us',
+                        conditions: "Terms of use",
+                        confidentialite: 'Confidentiality',
+                        regles: 'Rules and security',
+                        langue: 'Language',
+                        reseaux: 'Our social networks'
+                    }
+                });
+            }
+        }
+    }
 
+    render() {
         return (
             <Navbar bg="black" expand="lg" className="d-flex justify-content-between">
                 <div>
@@ -26,21 +73,21 @@ class Footer extends Component {
                         <li>
                             <Nav.Link as="div">
                                 <Link to="/presentation" className="color-green text-decoration-none navlink-footer">
-                                    {language === 'Français' ? 'Présentation' : 'Presentation'}
+                                    {this.state.terms.presentation}
                                 </Link>
                             </Nav.Link>
                         </li>
                         <li>
                             <Nav.Link as="div">
                                 <Link to="/droit" className="color-green text-decoration-none navlink-footer">
-                                    {language === 'Français' ? "Droits d'auteur" : 'Copyright'}
+                                {this.state.terms.droits}
                                 </Link>
                             </Nav.Link>
                         </li>
                         <li>
                             <Nav.Link as="div">
                                 <Link to="/contacter" className="color-green text-decoration-none navlink-footer">
-                                    {language === 'Français' ? 'Nous contacter' : 'Contact us'}
+                                {this.state.terms.contact}
                                 </Link>
                             </Nav.Link>
                         </li>
@@ -49,21 +96,21 @@ class Footer extends Component {
                         <li>
                             <Nav.Link as="div">
                                 <Link to="/condition" className="color-green text-decoration-none navlink-footer">
-                                    {language === 'Français' ? "Conditions d'utilisation" : 'Terms of use'}
+                                {this.state.terms.conditions}
                                 </Link>
                             </Nav.Link>
                         </li>
                         <li>
                             <Nav.Link as="div">
                                 <Link to="/confidentialite" className="color-green text-decoration-none navlink-footer">
-                                    {language === 'Français' ? "Confidentialité" : 'Confidentiality'}
+                                {this.state.terms.confidentialite}
                                 </Link>
                             </Nav.Link>
                         </li>
                         <li>
                             <Nav.Link as="div">
                                 <Link to="/regle" className="color-green text-decoration-none navlink-footer">
-                                    {language === 'Français' ? "Règles et sécurité" : 'Rules and security'}
+                                {this.state.terms.regles}
                                 </Link>
                             </Nav.Link>
                         </li>
@@ -71,7 +118,7 @@ class Footer extends Component {
                 </Nav>
                 <Nav className="flex-column text-center">
                     <Navbar.Text className="navbar-title">
-                        {language === 'Français' ? "Langue" : 'Language'}
+                    {this.state.terms.langue}
                     </Navbar.Text>
                     <div className="d-flex justify-content-center">
                         <div style={{ display: "inline", marginRight: 20 }}>
@@ -82,7 +129,7 @@ class Footer extends Component {
                         </div>
                     </div>
                     <Navbar.Text className="navbar-title">
-                        {language === 'Français' ? "Nos réseaux sociaux" : 'Our social networks'}
+                    {this.state.terms.reseaux}
                     </Navbar.Text>
                     <div className="d-flex justify-content-center">
                         <Nav.Link href="https://fr-fr.facebook.com/" target="_blank" style={{ display: "inline", marginRight: 20 }}>

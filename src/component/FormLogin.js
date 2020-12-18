@@ -9,13 +9,38 @@ class FormLogin extends Component {
 
     static contextType = UserContext;
 
+    createTextLanguage() {
+        let terms;
+        if (this.props.language === 'Français') {
+            terms = {
+                errEmail: "Veuillez inscrire une adresse mail valide.",
+                errRequired: "Veuillez remplir ce champ.",
+                email: "Votre email",
+                password: "Votre mot de passe",
+                connexion: 'Connexion'
+            }
+        }
+        else {
+            terms = {
+                errEmail: "Please enter a valid email address.",
+                errRequired: "Please fill in this field.",
+                email: "Your email",
+                password: "Your password",
+                connexion: 'Login'
+            }
+        }
+        return terms;
+    }
+
     render() {
+        let terms = this.createTextLanguage();
+
         const loginSchema = Yup.object().shape({
             email: Yup.string()
-                .email("Veuillez renseigner une adresse mail valide.")
-                .required('Veuillez remplir ce champ.'),
+                .email(terms.errEmail)
+                .required(terms.errRequired),
             password: Yup.string()
-                .required("Veuillez remplir ce champ.")
+                .required(terms.errRequired)
         });
 
         return (
@@ -38,7 +63,7 @@ class FormLogin extends Component {
                     {({ errors, touched }) => (
                         <Form className="mt-4">
                             <div className="form-group">
-                                <Field type="email" name="email" className="form-control" placeholder="Votre email" />
+                                <Field type="email" name="email" className="form-control" placeholder={terms.email} />
                                 {errors.email && touched.email ? (
                                     <small className="position-absolute text-danger d-flex align-items-center">
                                         <FaTimesCircle />&nbsp;{errors.email}
@@ -46,7 +71,7 @@ class FormLogin extends Component {
                                 ) : null}
                             </div>
                             <div className="form-group mt-5">
-                                <Field type="password" name="password" className="form-control" placeholder="Votre mot de passe" />
+                                <Field type="password" name="password" className="form-control" placeholder={terms.password} />
                                 {errors.password && touched.password ? (
                                     <small className="position-absolute text-danger d-flex align-items-center">
                                         <FaTimesCircle />&nbsp;{errors.password}
@@ -54,7 +79,7 @@ class FormLogin extends Component {
                                 ) : null}
                             </div>
                             <Button variant="green" type="submit" className="w-100 mt-4">
-                                Connexion
+                                {terms.connexion}
                             </Button>
                         </Form>
                     )}
