@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab } from 'react-bootstrap';
+import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab, Alert } from 'react-bootstrap';
 import { FaBars, FaFilm, FaHome, FaPlayCircle, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import UserContext from '../context/UserContext';
@@ -11,7 +11,8 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            show: false,
+            showModal: false,
+            showAlert: false,
             terms: {
                 accueil: 'Accueil',
                 abonnements: 'Abonnements',
@@ -75,8 +76,12 @@ class Header extends React.Component {
     }
 
     render() {
-        const handleClose = () => this.setState({ show: false });
-        const handleShow = () => this.setState({ show: true });
+        const handleClose = () => this.setState({ showModal: false });
+        const handleShow = () => this.setState({ showModal: true });
+        const handleRegister = () => {
+            this.setState({ showAlert: true });
+            document.getElementById('tab-log-tab-login').click();
+        }
 
         return (
             <>
@@ -178,19 +183,22 @@ class Header extends React.Component {
                         </NavDropdown>
                     </Protected>
                 </Navbar>
-                <Modal show={this.state.show} onHide={handleClose}>
+                <Modal show={this.state.showModal} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title className="color-green">
                             {this.state.terms.titreModal}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Tabs defaultActiveKey="login" id="uncontrolled-tab-example">
+                        <Alert variant="warning" show={this.state.showAlert} onClose={() => this.setState({ showAlert: false })} dismissible>
+                            Vérifier votre boîte mail pour finaliser l'inscription.
+                        </Alert>
+                        <Tabs defaultActiveKey="login" id="tab-log">
                             <Tab eventKey="login" title={this.state.terms.connexion}>
                                 <FormLogin handleClick={handleClose} language={this.props.language} />
                             </Tab>
                             <Tab eventKey="register" title={this.state.terms.inscription}>
-                                <FormRegister language={this.props.language} />
+                                <FormRegister language={this.props.language} handleClick={handleRegister} />
                             </Tab>
                         </Tabs>
                     </Modal.Body>

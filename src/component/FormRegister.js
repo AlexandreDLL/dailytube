@@ -148,6 +148,7 @@ class FormRegister extends Component {
                     onSubmit={values => {
                         console.log(values);
                         // this.moveAvatar(values.avatar);
+                        this.props.handleClick();
                     }}
                 >
                     {({ errors, touched }) => (
