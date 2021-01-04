@@ -24,7 +24,8 @@ class Header extends React.Component {
                 titreModal: 'Connexion / Inscription',
                 connexion: 'Connexion',
                 inscription: 'Inscription',
-                recherche: 'Recherche'
+                recherche: 'Recherche',
+                msgAlert: "Vérifier votre boîte mail pour finaliser l'inscription."
             }
         };
     }
@@ -51,7 +52,8 @@ class Header extends React.Component {
                         titreModal: 'Connexion / Inscription',
                         connexion: 'Connexion',
                         inscription: 'Inscription',
-                        recherche: 'Recherche'
+                        recherche: 'Recherche',
+                        msgAlert: "Vérifier votre boîte mail pour finaliser l'inscription."
                     }
                 });
             }
@@ -68,7 +70,8 @@ class Header extends React.Component {
                         titreModal: 'Login / Register',
                         connexion: 'Login',
                         inscription: 'Register',
-                        recherche: 'Search'
+                        recherche: 'Search',
+                        msgAlert: "Check your mail to complete the registration."
                     }
                 });
             }
@@ -191,7 +194,7 @@ class Header extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Alert variant="warning" show={this.state.showAlert} onClose={() => this.setState({ showAlert: false })} dismissible>
-                            Vérifier votre boîte mail pour finaliser l'inscription.
+                            {this.state.terms.msgAlert}
                         </Alert>
                         <Tabs defaultActiveKey="login" id="tab-log">
                             <Tab eventKey="login" title={this.state.terms.connexion}>
