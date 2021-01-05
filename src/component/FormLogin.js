@@ -17,7 +17,8 @@ class FormLogin extends Component {
                 errRequired: "Veuillez remplir ce champ.",
                 email: "Votre email",
                 password: "Votre mot de passe",
-                connexion: 'Connexion'
+                connexion: 'Connexion',
+                souvenir: 'Se souvenir de moi'
             }
         }
         else {
@@ -26,7 +27,8 @@ class FormLogin extends Component {
                 errRequired: "Please fill in this field.",
                 email: "Your email",
                 password: "Your password",
-                connexion: 'Login'
+                connexion: 'Login',
+                souvenir: 'Remember me'
             }
         }
         return terms;
@@ -54,9 +56,25 @@ class FormLogin extends Component {
                     onSubmit={values => {
                         console.log(values);
                         const { setUser } = this.context;
-                        // let newUser = {nom: 'Didillon', prenom: 'Alexandre', role: 'admin'};
-                        let newUser = { nom: 'Didillon', prenom: 'Alexandre', role: 'user' };
-                        setUser(newUser);
+                        const body = JSON.stringify({email: values.email, password: values.password});
+                        try{
+                            fetch('http://api.loc/login.php', {method:'POST', body}).then((response) => {
+                                return response.text().then((resp) => {
+                                    if(resp !== false){
+                                        resp = JSON.parse(resp);
+                                        console.log(resp);
+                                        let user = resp.user;
+                                        setUser(user);
+                                        if(values.remember){
+                                            localStorage.setItem('user', JSON.stringify(user));
+                                        }
+                                    }
+                                });
+                            })
+                        }
+                        catch(e){
+                            console.log('Erreur api: ' + e);
+                        }
                         this.props.handleClick();
                     }}
                 >
@@ -77,6 +95,10 @@ class FormLogin extends Component {
                                         <FaTimesCircle />&nbsp;{errors.password}
                                     </small>
                                 ) : null}
+                            </div>
+                            <div className="form-check mt-4">
+                                <Field type="checkbox" name="remember" className="form-check-input" />
+                                <label htmlFor="remember" className="form-check-label color-green">{terms.souvenir}</label>
                             </div>
                             <Button variant="green" type="submit" className="w-100 mt-4">
                                 {terms.connexion}
