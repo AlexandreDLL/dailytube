@@ -16,7 +16,7 @@ class ProtectedRoute extends Component {
             >
                 {routeProps => 
                     (noauth && !user) || 
-                    (!noauth && user && (!role || user.role === role)) ? (
+                    (!noauth && user && (!role || user.id_role === role)) ? (
                         <Component {...routeProps} />
                     ) : (
                         <Redirect to="/" />

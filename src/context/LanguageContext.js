@@ -17,7 +17,9 @@ class LanguageProvider extends Component {
     }
 
     componentDidMount(){
-        this.setLanguage(localStorage.getItem('language'));
+        if(localStorage.getItem('language') != null){
+            this.setLanguage(localStorage.getItem('language'));
+        }
     }
     
     render() {

@@ -7,6 +7,13 @@ import { FaTimesCircle } from 'react-icons/fa';
 
 class FormLogin extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            msgErr: false,
+        }
+    }
+
     static contextType = UserContext;
 
     createTextLanguage() {
@@ -18,7 +25,8 @@ class FormLogin extends Component {
                 email: "Votre email",
                 password: "Votre mot de passe",
                 connexion: 'Connexion',
-                souvenir: 'Se souvenir de moi'
+                souvenir: 'Se souvenir de moi',
+                msgErr: 'Email ou mot de passe incorrect.'
             }
         }
         else {
@@ -28,7 +36,8 @@ class FormLogin extends Component {
                 email: "Your email",
                 password: "Your password",
                 connexion: 'Login',
-                souvenir: 'Remember me'
+                souvenir: 'Remember me',
+                msgErr: 'Incorrect email or password.'
             }
         }
         return terms;
@@ -58,16 +67,21 @@ class FormLogin extends Component {
                         const { setUser } = this.context;
                         const body = JSON.stringify({email: values.email, password: values.password});
                         try{
-                            fetch('http://api.loc/login.php', {method:'POST', body}).then((response) => {
+                            fetch('http://api.loc:8081/login.php', {method:'POST', body}).then((response) => {
                                 return response.text().then((resp) => {
-                                    if(resp !== false){
-                                        resp = JSON.parse(resp);
-                                        console.log(resp);
+                                    resp = JSON.parse(resp);
+                                    if(resp){
                                         let user = resp.user;
                                         setUser(user);
+                                        localStorage.setItem('token', resp.token);
                                         if(values.remember){
-                                            localStorage.setItem('user', JSON.stringify(user));
+                                            localStorage.setItem('user', user.id);
                                         }
+                                        this.props.handleClick();
+                                    }
+                                    else{
+                                        this.setState({msgErr: true});
+                                        console.log('Connexion échouée !');
                                     }
                                 });
                             })
@@ -75,7 +89,6 @@ class FormLogin extends Component {
                         catch(e){
                             console.log('Erreur api: ' + e);
                         }
-                        this.props.handleClick();
                     }}
                 >
                     {({ errors, touched }) => (
@@ -100,6 +113,7 @@ class FormLogin extends Component {
                                 <Field type="checkbox" name="remember" className="form-check-input" />
                                 <label htmlFor="remember" className="form-check-label color-green">{terms.souvenir}</label>
                             </div>
+                            {this.state.msgErr ? <small className="text-danger">{terms.msgErr}</small> : null}
                             <Button variant="green" type="submit" className="w-100 mt-4">
                                 {terms.connexion}
                             </Button>

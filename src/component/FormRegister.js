@@ -147,6 +147,39 @@ class FormRegister extends Component {
                     validationSchema={registerSchema}
                     onSubmit={values => {
                         console.log(values);
+                        let date = new Date();
+                        let currentTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+                        const body = JSON.stringify({
+                            table: 'user',
+                            params: {
+                                nom: values.nom,
+                                prenom: values.prenom,
+                                pseudo: values.pseudo,
+                                date_naissance: values.dateNaissance,
+                                date_inscription: currentTime,
+                                avatar: (values.avatar !== '' ? values.avatar : null),
+                                email: values.email,
+                                password: values.password,
+                                active: 1,
+                                valide: 1,
+                                id_role: 1
+                            }
+                        })
+                        try {
+                            fetch('http://api.loc:8081', { method: 'POST', body }).then((response) => {
+                                return response.text().then((resp) => {
+                                    if (resp) {
+                                        console.log(resp);
+                                    }
+                                    else {
+                                        console.log(resp);
+                                    }
+                                });
+                            })
+                        }
+                        catch(e){
+                            console.log('Erreur' + e);
+                        }
                         // this.moveAvatar(values.avatar);
                         this.props.handleClick();
                     }}
