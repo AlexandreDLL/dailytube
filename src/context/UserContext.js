@@ -19,12 +19,23 @@ class UserProvider extends Component {
         if (localStorage.getItem('user') != null && localStorage.getItem('token') != null) {
             const body = JSON.stringify({ token: localStorage.getItem('token'), user: localStorage.getItem('user') });
             try {
-                fetch('http://api.loc:8081/login.php', { method: 'POST', body }).then((response) => {
+                fetch('http://api.loc/login.php', { method: 'POST', body }).then((response) => {
                     return response.text().then((resp) => {
-                        resp = JSON.parse(resp);
-                        resp = resp[0];
+                        try{
+                            resp = JSON.parse(resp);
+                            resp = resp[0];
+                        }
+                        catch(e){
+                            console.log('Erreur:' + e);
+                        }
                         if (resp) {
-                            this.setUser(resp);
+                            if (resp.constructor === ({}).constructor) {
+                                this.setUser(resp);
+                            }
+                            else {
+                                localStorage.removeItem('user');
+                                localStorage.removeItem('token');
+                            }
                         }
                         else {
                             console.log(resp);

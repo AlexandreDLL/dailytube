@@ -67,7 +67,7 @@ class FormLogin extends Component {
                         const { setUser } = this.context;
                         const body = JSON.stringify({email: values.email, password: values.password});
                         try{
-                            fetch('http://api.loc:8081/login.php', {method:'POST', body}).then((response) => {
+                            fetch('http://api.loc/login.php', {method:'POST', body}).then((response) => {
                                 return response.text().then((resp) => {
                                     resp = JSON.parse(resp);
                                     if(resp){

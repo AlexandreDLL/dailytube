@@ -166,7 +166,7 @@ class FormRegister extends Component {
                             }
                         })
                         try {
-                            fetch('http://api.loc:8081', { method: 'POST', body }).then((response) => {
+                            fetch('http://api.loc', { method: 'POST', body }).then((response) => {
                                 return response.text().then((resp) => {
                                     if (resp) {
                                         console.log(resp);

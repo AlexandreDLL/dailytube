@@ -35,8 +35,8 @@ class Header extends React.Component {
     logout() {
         const { setUser } = this.context;
         setUser(null);
-        localStorage.setItem('user', null);
-        localStorage.setItem('token', null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
     }
 
     componentDidUpdate(prevProps) {
