@@ -24,9 +24,9 @@ class Header extends React.Component {
                 titreModal: 'Connexion / Inscription',
                 connexion: 'Connexion',
                 inscription: 'Inscription',
-                recherche: 'Recherche',
-                msgAlert: "Vérifier votre boîte mail pour finaliser l'inscription."
-            }
+                recherche: 'Recherche'
+            },
+            msgAlert: "Vérifier votre boîte mail pour finaliser l'inscription."
         };
     }
 
@@ -54,9 +54,9 @@ class Header extends React.Component {
                         titreModal: 'Connexion / Inscription',
                         connexion: 'Connexion',
                         inscription: 'Inscription',
-                        recherche: 'Recherche',
-                        msgAlert: "Vérifier votre boîte mail pour finaliser l'inscription."
-                    }
+                        recherche: 'Recherche'
+                    },
+                    msgAlert: "Vérifier votre boîte mail pour finaliser l'inscription."
                 });
             }
             else {
@@ -73,8 +73,8 @@ class Header extends React.Component {
                         connexion: 'Login',
                         inscription: 'Register',
                         recherche: 'Search',
-                        msgAlert: "Check your mail to complete the registration."
-                    }
+                    },
+                    msgAlert: "Check your mail to complete the registration."
                 });
             }
         }
@@ -83,7 +83,10 @@ class Header extends React.Component {
     render() {
         const handleClose = () => this.setState({ showModal: false });
         const handleShow = () => this.setState({ showModal: true });
-        const handleRegister = () => {
+        const handleRegister = (error = false) => {
+            if (error) {
+                this.setState({ msgAlert: (this.props.language === 'Français' ? "Erreur lors de l'inscription." : 'Error during registration.')});
+            }
             this.setState({ showAlert: true });
             document.getElementById('tab-log-tab-login').click();
         }
@@ -196,7 +199,7 @@ class Header extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Alert variant="warning" show={this.state.showAlert} onClose={() => this.setState({ showAlert: false })} dismissible>
-                            {this.state.terms.msgAlert}
+                            {this.state.msgAlert}
                         </Alert>
                         <Tabs defaultActiveKey="login" id="tab-log">
                             <Tab eventKey="login" title={this.state.terms.connexion}>

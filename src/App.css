@@ -1,4 +1,8 @@
 /* Global */
+.row{
+  margin: 0 !important;
+}
+
 .bg-green{
   background-color: #21a65f;
 }

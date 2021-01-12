@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Rest from '../Rest';
 
 const UserContext = React.createContext();
 
@@ -17,35 +18,27 @@ class UserProvider extends Component {
 
     componentDidMount() {
         if (localStorage.getItem('user') != null && localStorage.getItem('token') != null) {
-            const body = JSON.stringify({ token: localStorage.getItem('token'), user: localStorage.getItem('user') });
-            try {
-                fetch('http://api.loc/login.php', { method: 'POST', body }).then((response) => {
-                    return response.text().then((resp) => {
-                        try{
-                            resp = JSON.parse(resp);
-                            resp = resp[0];
-                        }
-                        catch(e){
-                            console.log('Erreur:' + e);
-                        }
-                        if (resp) {
-                            if (resp.constructor === ({}).constructor) {
-                                this.setUser(resp);
-                            }
-                            else {
-                                localStorage.removeItem('user');
-                                localStorage.removeItem('token');
-                            }
+            Rest.apiRequest({}, 'POST', true).then(resp => resp.text())
+                .then(resp => {
+                    try {
+                        resp = JSON.parse(resp)[0];
+                    }
+                    catch (e) {
+                        console.error('Erreur:' + e);
+                    }
+                    if (resp) {
+                        if (resp.constructor === Object) {
+                            this.setUser(resp);
                         }
                         else {
-                            console.log(resp);
+                            localStorage.removeItem('user');
+                            localStorage.removeItem('token');
                         }
-                    });
-                })
-            }
-            catch (e) {
-                console.log('Erreur' + e);
-            }
+                    }
+                    else {
+                        console.log(resp);
+                    }
+                });
         }
     }
 

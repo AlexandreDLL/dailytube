@@ -3,8 +3,18 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Button } from 'react-bootstrap';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import Rest from '../Rest';
 
 class FormRegister extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showErr: false,
+            msgErr: ''
+        };
+    }
+
 
     showStatutMsg(errors, touched, name) {
         if (errors[name] && touched[name]) {
@@ -146,10 +156,9 @@ class FormRegister extends Component {
                     }}
                     validationSchema={registerSchema}
                     onSubmit={values => {
-                        console.log(values);
                         let date = new Date();
                         let currentTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-                        const body = JSON.stringify({
+                        const body = {
                             table: 'user',
                             params: {
                                 nom: values.nom,
@@ -164,24 +173,33 @@ class FormRegister extends Component {
                                 valide: 1,
                                 id_role: 1
                             }
-                        })
-                        try {
-                            fetch('http://api.loc', { method: 'POST', body }).then((response) => {
-                                return response.text().then((resp) => {
-                                    if (resp) {
-                                        console.log(resp);
+                        };
+                        Rest.apiRequest(body, 'POST').then(resp => resp.text())
+                            .then(resp => {
+                                if (resp) {
+                                    if (resp === 'pseudo exist') {
+                                        this.setState({
+                                            showErr: true, msgErr: (this.props.language === 'Français' ?
+                                                "Ce pseudo n'est pas disponible, veuillez en saisir un autre." :
+                                                "This username is not available, please enter a different one.")
+                                        });
+                                    }
+                                    else if (resp === 'email exist') {
+                                        this.setState({
+                                            showErr: true, msgErr: (this.props.language === 'Français' ?
+                                                "Un compte existe avec cet email." :
+                                                "An account exists with this email.")
+                                        });
                                     }
                                     else {
-                                        console.log(resp);
+                                        this.props.handleClick();
                                     }
-                                });
-                            })
-                        }
-                        catch(e){
-                            console.log('Erreur' + e);
-                        }
+                                }
+                                else {
+                                    this.props.handleClick(true);
+                                }
+                            });
                         // this.moveAvatar(values.avatar);
-                        this.props.handleClick();
                     }}
                 >
                     {({ errors, touched }) => (
@@ -224,10 +242,13 @@ class FormRegister extends Component {
                                 <Field type="password" name="password" className="form-control" placeholder={terms.password} />
                                 {this.showStatutMsg(errors, touched, "password")}
                             </div>
-                            <div className="form-group mt-5">
+                            <div className="form-group mt-5 mb-4">
                                 <Field type="password" name="confirmPassword" className="form-control" placeholder={terms.confPassword} />
                                 {this.showStatutMsg(errors, touched, "confirmPassword")}
                             </div>
+                            {this.state.showErr ? <small className="text-danger">
+                                <FaTimesCircle /> {this.state.msgErr}
+                            </small> : null}
                             <Button variant="green" type="submit" className="w-100 mt-4">
                                 {terms.inscription}
                             </Button>

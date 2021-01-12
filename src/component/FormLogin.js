@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { Button } from 'react-bootstrap';
 import UserContext from '../context/UserContext';
 import { FaTimesCircle } from 'react-icons/fa';
+import Rest from '../Rest';
 
 class FormLogin extends Component {
 
@@ -63,32 +64,24 @@ class FormLogin extends Component {
                     }}
                     validationSchema={loginSchema}
                     onSubmit={values => {
-                        console.log(values);
                         const { setUser } = this.context;
-                        const body = JSON.stringify({email: values.email, password: values.password});
-                        try{
-                            fetch('http://api.loc/login.php', {method:'POST', body}).then((response) => {
-                                return response.text().then((resp) => {
-                                    resp = JSON.parse(resp);
-                                    if(resp){
-                                        let user = resp.user;
-                                        setUser(user);
-                                        localStorage.setItem('token', resp.token);
-                                        if(values.remember){
-                                            localStorage.setItem('user', user.id);
-                                        }
-                                        this.props.handleClick();
+                        const body = { email: values.email, password: values.password };
+                        Rest.apiRequest(body, 'POST', true).then(resp => resp.text())
+                            .then(resp => {
+                                resp = JSON.parse(resp);
+                                if (resp) {
+                                    let user = resp.user;
+                                    setUser(user);
+                                    localStorage.setItem('token', resp.token);
+                                    if (values.remember) {
+                                        localStorage.setItem('user', user.id);
                                     }
-                                    else{
-                                        this.setState({msgErr: true});
-                                        console.log('Connexion échouée !');
-                                    }
-                                });
+                                    this.props.handleClick();
+                                }
+                                else {
+                                    this.setState({ msgErr: true });
+                                }
                             })
-                        }
-                        catch(e){
-                            console.log('Erreur api: ' + e);
-                        }
                     }}
                 >
                     {({ errors, touched }) => (
