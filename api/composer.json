@@ -1,0 +1,12 @@
+{
+    "name": "dailytube/api",
+    "authors": [
+        {
+            "name": "Alexandre Didillon",
+            "email": "didillon.alexandre@gmail.com"
+        }
+    ],
+    "require": {
+        "rbdwllr/reallysimplejwt": "^3.1"
+    }
+}
