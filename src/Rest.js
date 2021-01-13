@@ -30,10 +30,10 @@ class Rest {
     static apiRequest(body, method = 'GET', login = false) {
         let url;
         if (!login) {
-            url = 'http://api.loc/index.php';
+            url = 'http://api.loc:8081/index.php';
         }
         else {
-            url = 'http://api.loc/login.php';
+            url = 'http://api.loc:8081/login.php';
         }
         if (localStorage.getItem('user') != null && localStorage.getItem('token') != null) {
             let user = localStorage.getItem('user');

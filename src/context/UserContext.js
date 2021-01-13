@@ -40,6 +40,9 @@ class UserProvider extends Component {
                     }
                 });
         }
+        else if (localStorage.getItem('user') == null && localStorage.getItem('token') != null) {
+            localStorage.removeItem('token');
+        }
     }
 
     render() {

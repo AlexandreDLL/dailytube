@@ -68,7 +68,12 @@ class FormLogin extends Component {
                         const body = { email: values.email, password: values.password };
                         Rest.apiRequest(body, 'POST', true).then(resp => resp.text())
                             .then(resp => {
-                                resp = JSON.parse(resp);
+                                try{
+                                    resp = JSON.parse(resp);
+                                }
+                                catch(e){
+                                    console.log('Erreur:' + e);
+                                }
                                 if (resp) {
                                     let user = resp.user;
                                     setUser(user);
