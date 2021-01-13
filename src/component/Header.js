@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab } from 'react-bootstrap';
+import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab, Alert } from 'react-bootstrap';
 import { FaBars, FaFilm, FaHome, FaPlayCircle, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import UserContext from '../context/UserContext';
@@ -11,7 +11,8 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            show: false,
+            showModal: false,
+            showAlert: false,
             terms: {
                 accueil: 'Accueil',
                 abonnements: 'Abonnements',
@@ -24,7 +25,8 @@ class Header extends React.Component {
                 connexion: 'Connexion',
                 inscription: 'Inscription',
                 recherche: 'Recherche'
-            }
+            },
+            msgAlert: "Vérifier votre boîte mail pour finaliser l'inscription."
         };
     }
 
@@ -33,6 +35,8 @@ class Header extends React.Component {
     logout() {
         const { setUser } = this.context;
         setUser(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
     }
 
     componentDidUpdate(prevProps) {
@@ -51,7 +55,8 @@ class Header extends React.Component {
                         connexion: 'Connexion',
                         inscription: 'Inscription',
                         recherche: 'Recherche'
-                    }
+                    },
+                    msgAlert: "Vérifier votre boîte mail pour finaliser l'inscription."
                 });
             }
             else {
@@ -67,16 +72,24 @@ class Header extends React.Component {
                         titreModal: 'Login / Register',
                         connexion: 'Login',
                         inscription: 'Register',
-                        recherche: 'Search'
-                    }
+                        recherche: 'Search',
+                    },
+                    msgAlert: "Check your mail to complete the registration."
                 });
             }
         }
     }
 
     render() {
-        const handleClose = () => this.setState({ show: false });
-        const handleShow = () => this.setState({ show: true });
+        const handleClose = () => this.setState({ showModal: false });
+        const handleShow = () => this.setState({ showModal: true });
+        const handleRegister = (error = false) => {
+            if (error) {
+                this.setState({ msgAlert: (this.props.language === 'Français' ? "Erreur lors de l'inscription." : 'Error during registration.')});
+            }
+            this.setState({ showAlert: true });
+            document.getElementById('tab-log-tab-login').click();
+        }
 
         return (
             <>
@@ -178,19 +191,22 @@ class Header extends React.Component {
                         </NavDropdown>
                     </Protected>
                 </Navbar>
-                <Modal show={this.state.show} onHide={handleClose}>
+                <Modal show={this.state.showModal} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title className="color-green">
                             {this.state.terms.titreModal}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Tabs defaultActiveKey="login" id="uncontrolled-tab-example">
+                        <Alert variant="warning" show={this.state.showAlert} onClose={() => this.setState({ showAlert: false })} dismissible>
+                            {this.state.msgAlert}
+                        </Alert>
+                        <Tabs defaultActiveKey="login" id="tab-log">
                             <Tab eventKey="login" title={this.state.terms.connexion}>
                                 <FormLogin handleClick={handleClose} language={this.props.language} />
                             </Tab>
                             <Tab eventKey="register" title={this.state.terms.inscription}>
-                                <FormRegister language={this.props.language} />
+                                <FormRegister language={this.props.language} handleClick={handleRegister} />
                             </Tab>
                         </Tabs>
                     </Modal.Body>

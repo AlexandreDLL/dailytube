@@ -2,13 +2,18 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Header, Main, Footer } from './component';
 import { BrowserRouter as Router } from "react-router-dom";
-import { UserProvider, LanguageProvider } from './context';
+import { LanguageProvider } from './context';
 import LanguageContext from './context/LanguageContext';
+import { Component } from 'react';
+import UserContext from './context/UserContext';
 
-function App() {
-  return (
-    <div className="App">
-      <UserProvider>
+class App extends Component {
+
+  static contextType = UserContext;
+
+  render() {
+    return (
+      <div className="App">
         <LanguageProvider>
           <Router>
             <header>
@@ -30,9 +35,9 @@ function App() {
             </footer>
           </Router>
         </LanguageProvider>
-      </UserProvider>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default App;

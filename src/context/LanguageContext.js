@@ -13,6 +13,13 @@ class LanguageProvider extends Component {
 
     setLanguage = (language) => {
         this.setState({language});
+        localStorage.setItem('language', language);
+    }
+
+    componentDidMount(){
+        if(localStorage.getItem('language') != null){
+            this.setLanguage(localStorage.getItem('language'));
+        }
     }
     
     render() {

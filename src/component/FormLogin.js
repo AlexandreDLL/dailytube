@@ -4,8 +4,16 @@ import * as Yup from 'yup';
 import { Button } from 'react-bootstrap';
 import UserContext from '../context/UserContext';
 import { FaTimesCircle } from 'react-icons/fa';
+import Rest from '../Rest';
 
 class FormLogin extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            msgErr: false,
+        }
+    }
 
     static contextType = UserContext;
 
@@ -17,7 +25,9 @@ class FormLogin extends Component {
                 errRequired: "Veuillez remplir ce champ.",
                 email: "Votre email",
                 password: "Votre mot de passe",
-                connexion: 'Connexion'
+                connexion: 'Connexion',
+                souvenir: 'Se souvenir de moi',
+                msgErr: 'Email ou mot de passe incorrect.'
             }
         }
         else {
@@ -26,7 +36,9 @@ class FormLogin extends Component {
                 errRequired: "Please fill in this field.",
                 email: "Your email",
                 password: "Your password",
-                connexion: 'Login'
+                connexion: 'Login',
+                souvenir: 'Remember me',
+                msgErr: 'Incorrect email or password.'
             }
         }
         return terms;
@@ -52,12 +64,24 @@ class FormLogin extends Component {
                     }}
                     validationSchema={loginSchema}
                     onSubmit={values => {
-                        console.log(values);
                         const { setUser } = this.context;
-                        // let newUser = {nom: 'Didillon', prenom: 'Alexandre', role: 'admin'};
-                        let newUser = { nom: 'Didillon', prenom: 'Alexandre', role: 'user' };
-                        setUser(newUser);
-                        this.props.handleClick();
+                        const body = { email: values.email, password: values.password };
+                        Rest.apiRequest(body, 'POST', true).then(resp => resp.text())
+                            .then(resp => {
+                                resp = JSON.parse(resp);
+                                if (resp) {
+                                    let user = resp.user;
+                                    setUser(user);
+                                    localStorage.setItem('token', resp.token);
+                                    if (values.remember) {
+                                        localStorage.setItem('user', user.id);
+                                    }
+                                    this.props.handleClick();
+                                }
+                                else {
+                                    this.setState({ msgErr: true });
+                                }
+                            })
                     }}
                 >
                     {({ errors, touched }) => (
@@ -78,6 +102,11 @@ class FormLogin extends Component {
                                     </small>
                                 ) : null}
                             </div>
+                            <div className="form-check mt-4">
+                                <Field type="checkbox" name="remember" className="form-check-input" />
+                                <label htmlFor="remember" className="form-check-label color-green">{terms.souvenir}</label>
+                            </div>
+                            {this.state.msgErr ? <small className="text-danger">{terms.msgErr}</small> : null}
                             <Button variant="green" type="submit" className="w-100 mt-4">
                                 {terms.connexion}
                             </Button>
