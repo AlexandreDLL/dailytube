@@ -161,17 +161,17 @@ class FormRegister extends Component {
                         const body = {
                             table: 'user',
                             params: {
-                                nom: values.nom,
-                                prenom: values.prenom,
-                                pseudo: values.pseudo,
+                                nom_User: values.nom,
+                                prenom_User: values.prenom,
+                                pseudo_User: values.pseudo,
                                 date_naissance: values.dateNaissance,
                                 date_inscription: currentTime,
                                 avatar: (values.avatar !== '' ? values.avatar : null),
                                 email: values.email,
                                 password: values.password,
-                                active: 1,
-                                valide: 1,
-                                id_role: 1
+                                active_User: 1,
+                                valide_User: 1,
+                                id_Role: 1
                             }
                         };
                         Rest.apiRequest(body, 'POST').then(resp => resp.text())

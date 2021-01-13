@@ -7,22 +7,26 @@ class Rest {
         return obj;
     }
 
-    static createGetUrl(body){
+    static createGetUrl(body) {
         let params = body.params;
         delete body.params;
-        if(params.id === null){
-            delete params.id;
-        }
-        if(params.condition === null){
-            delete params.condition;
-        }
-        if(params.orderBy === null){
-            delete params.orderBy;
+        if (params !== undefined) {
+            if (params.id === null) {
+                delete params.id;
+            }
+            if (params.condition === null) {
+                delete params.condition;
+            }
+            if (params.orderBy === null) {
+                delete params.orderBy;
+            }
         }
         body = this.bindObjectUrl(body);
-        if(Object.keys(params).length > 0){
-            params = this.bindObjectUrl(params);
-            body = body + params;
+        if (params !== undefined) {
+            if (Object.keys(params).length > 0) {
+                params = this.bindObjectUrl(params);
+                body = body + params;
+            }
         }
         return body;
     }

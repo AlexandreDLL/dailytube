@@ -72,6 +72,7 @@ class FormLogin extends Component {
                                     resp = JSON.parse(resp);
                                 }
                                 catch(e){
+                                    console.log(resp);
                                     console.log('Erreur:' + e);
                                 }
                                 if (resp) {
@@ -79,7 +80,7 @@ class FormLogin extends Component {
                                     setUser(user);
                                     localStorage.setItem('token', resp.token);
                                     if (values.remember) {
-                                        localStorage.setItem('user', user.id);
+                                        localStorage.setItem('user', user.id_User);
                                     }
                                     this.props.handleClick();
                                 }
