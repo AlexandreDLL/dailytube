@@ -4,20 +4,38 @@
 }
 
 .bg-green{
-  background-color: #21a65f;
+  background-color: #21a65f !important;
 }
 
 .bg-black{
-  background-color: #2f2c2c;
+  background-color: #2f2c2c !important;
 }
 
 .color-green{
   color: #21a65f !important;
 }
 
+a.color-green:hover{
+  color: #26c570 !important;
+}
+
 .btn-green{
   background-color: #21a65f !important;
   color: #2f2c2c !important;
+}
+
+.t-2{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.t-3{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 ::-webkit-scrollbar{
@@ -41,6 +59,12 @@
 
 
 /* Navbar */
+@media (max-width: 324px){
+  .search.m-auto{
+    margin-left: -22px !important;
+  }
+}
+
 .nav-link.color-green{
   color: #21a65f !important;
 }
@@ -73,7 +97,7 @@
 }
 
 .dropdown-item:hover{
-  background-color: #e2e2e2 !important;
+  background-color: #424242 !important;
 }
 
 .navbar-title{
@@ -118,6 +142,7 @@ a.nav-item.nav-link{
   color: #21a65f;
 }
 
+
 /* Accueil */
 .video-title{
   font-weight: bold;
@@ -144,4 +169,11 @@ a.nav-item.nav-link{
 
 .logo-language:hover{
   cursor: pointer;
+}
+
+
+/* Abonnement */
+.miniature{
+  width: 400px;
+  height: 200px;
 }

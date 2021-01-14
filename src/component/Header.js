@@ -96,20 +96,20 @@ class Header extends React.Component {
                 <Navbar bg="black" expand="lg" fixed="top">
                     <NavDropdown title={<FaBars className="color-green" style={{ fontSize: 32 }} />} id="basic-nav-dropdown">
                         <NavDropdown.Item className="my-2" as="div">
-                            <Link to="/" className="color-green text-decoration-none d-block d-flex align-items-center">
+                            <Link to="/" className="color-green text-decoration-none d-flex align-items-center">
                                 <FaHome className="mr-2" />
                                 {this.state.terms.accueil}
                             </Link>
                         </NavDropdown.Item>
                         <Protected>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/abonnement" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                <Link to="/abonnement" className="color-green text-decoration-none d-flex align-items-center">
                                     <FaPlayCircle className="mr-2" />
                                     {this.state.terms.abonnements}
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="mt-2 mb-3" as="div">
-                                <Link to="/playlist" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                <Link to="/playlist" className="color-green text-decoration-none d-flex align-items-center">
                                     <FaFilm className="mr-2" />
                                     Playlists
                                 </Link>
@@ -120,37 +120,37 @@ class Header extends React.Component {
                             </Navbar.Text>
                             <div className="navbar-abonnement">
                                 <NavDropdown.Item className="my-2" as="div">
-                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
                                         <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item className="my-2" as="div">
-                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
                                         <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item className="my-2" as="div">
-                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
                                         <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item className="my-2" as="div">
-                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
                                         <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item className="my-2" as="div">
-                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
                                         <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item className="my-2" as="div">
-                                    <Link to="/chaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                    <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
                                         <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
@@ -158,8 +158,8 @@ class Header extends React.Component {
                             </div>
                         </Protected>
                     </NavDropdown>
-                    <Form inline className="m-auto w-50">
-                        <FormControl type="text" placeholder={this.state.terms.recherche} className="mr-sm-2 w-75 m-auto" style={{ backgroundColor: "#e2e2e2" }} />
+                    <Form inline className="m-auto w-50 search justify-content-center">
+                        <FormControl type="text" placeholder={this.state.terms.recherche} className="mr-sm-2 w-75" style={{ backgroundColor: "#e2e2e2" }} />
                     </Form>
                     <Protected noauth>
                         <Nav.Link role="button" onClick={handleShow} className="ml-auto" style={{ padding: "16px 30px" }}>
@@ -169,22 +169,22 @@ class Header extends React.Component {
                     <Protected>
                         <NavDropdown title={<img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-navbar" />} id="dropdown-account" className="ml-auto">
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/compte" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                <Link to="/compte" className="color-green text-decoration-none d-flex align-items-center">
                                     {this.state.terms.monCompte}
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/machaine" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                <Link to="/machaine" className="color-green text-decoration-none d-flex align-items-center">
                                     {this.state.terms.maChaine}
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/upload" className="color-green text-decoration-none d-block d-flex align-items-center">
+                                <Link to="/upload" className="color-green text-decoration-none d-flex align-items-center">
                                     {this.state.terms.upload}
                                 </Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item className="my-2" as="div">
-                                <Link to="/" className="color-green text-decoration-none d-block d-flex align-items-center" onClick={this.logout.bind(this)}>
+                                <Link to="/" className="color-green text-decoration-none d-flex align-items-center" onClick={this.logout.bind(this)}>
                                     {this.state.terms.deconnexion}
                                 </Link>
                             </NavDropdown.Item>

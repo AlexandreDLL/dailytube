@@ -1,5 +1,7 @@
 class Rest {
 
+    static prefixMiniature = 'asset/img/user/';
+
     static bindObjectUrl(obj) {
         obj = Object.keys(obj)
             .map((key) => key + "=" + obj[key])
@@ -34,10 +36,10 @@ class Rest {
     static apiRequest(body, method = 'GET', login = false) {
         let url;
         if (!login) {
-            url = 'http://api.loc:8081/index.php';
+            url = 'http://api.loc/index.php';
         }
         else {
-            url = 'http://api.loc:8081/login.php';
+            url = 'http://api.loc/login.php';
         }
         if (localStorage.getItem('user') != null && localStorage.getItem('token') != null) {
             let user = localStorage.getItem('user');
