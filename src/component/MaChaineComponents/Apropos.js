@@ -11,14 +11,25 @@ class Apropos extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {nbVideos:0, nbVuesTotal:0}
+        this.state = {nbVideos:0, nbVuesTotal:0, desc:this.props.desc}
+
+        this.handleInputChange = this.handleInputChange.bind(this)
+
         
     }
         
+    handleInputChange(value) {
+        this.setState({ desc: value })
+        this.props.onValueChange(value);
+
+
+    }
 
     static contextType = UserContext;
 
     componentDidMount() {
+
+
 
         Rest.apiRequest({table:"video", join:`chaine ON video.id_Chaine=chaine.id_Chaine AND chaine.id_Chaine=${this.props.idChaine}`}).then((response)=>{
             return response.text().then((resp) => {
@@ -56,7 +67,7 @@ class Apropos extends Component {
             <h3>Description de la chaîne</h3>
 
             <div className="w-100">
-            <TextAreaForm value={this.props.desc} idChaine={this.props.idChaine} event="modifDescription" />
+            <TextAreaForm value={this.state.desc} idChaine={this.props.idChaine} event="modifDescription" onValueChange={this.handleInputChange}/>
             </div>
 
                 </div>

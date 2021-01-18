@@ -1,0 +1,11 @@
+View : MaChaine
+
+- Faire en sorte que les boutons servent a qque chose au lieu de faire joli, ou les virer
+
+Faire les composants : Accueil - Vidéos
+
+
+
+View : Compte
+
+- Faire en sorte que l'user puisse modifier certaines de ses informations : modif avatar, modif nom utilisateur (mais seulement un pas pris), modif son état civil / date de naissance / email (mais seulement un pas pris)

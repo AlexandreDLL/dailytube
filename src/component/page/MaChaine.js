@@ -13,6 +13,14 @@ class MaChaine extends Component {
         super(props);
         this.state = { show: "accueil", nbAbonnes:"", desc:"", idChaine:"" }
 
+        this.handleInputChange = this.handleInputChange.bind(this)
+
+
+    }
+
+    handleInputChange(value) {
+        this.setState({ desc: value })
+        
     }
 
 
@@ -32,7 +40,7 @@ class MaChaine extends Component {
 
             case "videos": return (<Videos />);
 
-            case "apropos": return (<Apropos desc={this.state.desc} idChaine={this.state.idChaine} />);
+            case "apropos": return (<Apropos desc={this.state.desc} idChaine={this.state.idChaine}  onValueChange={this.handleInputChange}/>);
         }
     }
 
