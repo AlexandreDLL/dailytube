@@ -13,7 +13,7 @@ class Accueil extends Component {
                 {user !== null ? 
                     user.id_role === '2' ? 
                     <h1>Bonjour Admin {user.prenom}</h1> : 
-                    <h1>Bonjour {user.prenom}</h1> : 
+                    <h1>Bonjour {user.prenom_User}</h1> : 
                 <h1>AccueilTest</h1>
                 }
                 <h1>Accueil</h1>

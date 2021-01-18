@@ -1,6 +1,7 @@
 <?php
 
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 
 include 'Db.php';
 
@@ -9,6 +10,25 @@ use ReallySimpleJWT\Token;
 require 'vendor/autoload.php';
 
 $secret = 'sec!RmX89h5xS';
+
+if($_SERVER["REQUEST_METHOD"] == 'GET' && isset($_GET['request'])){
+    $_get = validate_request($_GET);
+    $request = isset($_get['request']) ? $_get['request'] : null;
+    if($request != null){
+        $resp = Db::query($request);
+        if($resp){
+            echo json_encode(Db::$stmt->fetchAll(PDO::FETCH_ASSOC));
+            exit();
+        }
+        else{
+            echo json_encode($resp);
+            exit();
+        }
+    }
+    else{
+        exit();
+    }
+}
 
 switch ($_SERVER["REQUEST_METHOD"]) {
     case 'GET':
@@ -91,7 +111,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $table = isset($_put['table']) ? $_put['table'] : null;
         $params = isset($_put['params']) ? $_put['params'] : null;
         verifyContent($table, $params);
-        $token = isset($_post['token']) ? $_post['token'] : null;
+        $token = isset($_put['token']) ? $_put['token'] : null;
         $authoTables = [];
         if($token == null){
             $authoTables = [''];
@@ -128,7 +148,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $table = isset($_del['table']) ? $_del['table'] : null;
         $id = isset($_del['id']) ? $_del['id'] : null;
         verifyContent($table, $id);
-        $token = isset($_post['token']) ? $_post['token'] : null;
+        $token = isset($_delete['token']) ? $_delete['token'] : null;
         $authoTables = [];
         if($token == null){
             $authoTables = [''];

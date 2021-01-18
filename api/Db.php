@@ -3,7 +3,7 @@
 class Db {
 
     private static $db = null;
-    private static $stmt = null;
+    public static $stmt = null;
     public static $prefix = '$argon2id$v=19$m=1024,t=4,p=1$';
 
     private static function getDb(){
@@ -49,14 +49,13 @@ class Db {
         }
 
         if(isset($id) && isset($where)){
-            $where .= ' AND id = ?';
+            $where .= ' AND id_'.ucfirst($table).' = ?';
             $params[] = $id;
         }
         elseif(isset($id) && !isset($where)){
-            $where = 'id = ?';
+            $where = 'id_'.ucfirst($table).' = ?';
             $params[] = $id;
         }
-
         $sql = "SELECT * FROM $table";
 
         if(isset($where)){
@@ -68,7 +67,6 @@ class Db {
         if(isset($order)){
             $sql .= " ORDER BY $order";
         }
-
         $resp = self::query($sql, $params);
         if($resp){
             $rows = self::$stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -85,12 +83,12 @@ class Db {
         $valueParams = [];
         // USER
         if($table == 'user'){
-            $sql = "SELECT pseudo, email FROM user";
+            $sql = "SELECT pseudo_User, email FROM user";
             $resp = Db::query($sql);
             if($resp){
                 $users = self::$stmt->fetchAll(PDO::FETCH_ASSOC);
                 foreach($users as $user){
-                    if($user['pseudo'] === $params['pseudo']){
+                    if($user['pseudo_User'] === $params['pseudo_User']){
                         return 'pseudo exist';
                     }
                     elseif($user['email'] === $params['email']){
@@ -101,11 +99,11 @@ class Db {
             else{
                 return false;
             }
-            $sql = "INSERT INTO chaine(id) VALUES(NULL)";
+            $sql = "INSERT INTO chaine(id_Chaine) VALUES(NULL)";
             $resp = self::query($sql);
             if($resp){
                 $id_chaine = self::$db->lastInsertId();
-                $attributs .= 'id_chaine,';
+                $attributs .= 'id_Chaine,';
                 $values .= '?,';
                 $valueParams[] = $id_chaine;
             }
@@ -140,7 +138,7 @@ class Db {
         $set = '';
         foreach($params as $key => $value){
             if($key == 'id'){
-                $where = $key.' = '.$value;
+                $where = 'id_'.ucfirst($table).' = '.$value;
             }
             else{
                 $set .= $key." = '".$value."',";
@@ -153,7 +151,7 @@ class Db {
     }
 
     public static function delete($table, $id){
-        $sql = "DELETE FROM $table WHERE id = $id";
+        $sql = "DELETE FROM $table WHERE id_".ucfirst($table)." = $id";
         $resp = self::query($sql);
         return $resp; // $resp = PDO return true; $resp = false return false;
     }

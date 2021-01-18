@@ -4,12 +4,14 @@ import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab, Alert, B
 import Accueil from '../MaChaineComponents/Accueil';
 import Apropos from '../MaChaineComponents/Apropos';
 import Videos from '../MaChaineComponents/Videos';
+import Rest from "../../Rest"
+
 
 class MaChaine extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { show: "accueil" }
+        this.state = { show: "accueil", nbAbonnes:"", desc:"", idChaine:"" }
 
     }
 
@@ -19,11 +21,6 @@ class MaChaine extends Component {
     componentDidMount() {
 
         const { user } = this.context
-        console.log(user)
-
-        // TODO : Créer les boutons et liens
-        // TODO : Sortir la table de stats
-
     }
 
 
@@ -35,7 +32,7 @@ class MaChaine extends Component {
 
             case "videos": return (<Videos />);
 
-            case "apropos": return (<Apropos />);
+            case "apropos": return (<Apropos desc={this.state.desc} idChaine={this.state.idChaine} />);
         }
     }
 
@@ -50,11 +47,32 @@ class MaChaine extends Component {
         this.setState({ show: "apropos" })
     }
 
+    componentDidMount() {
+
+        const { user } = this.context
+
+        Rest.apiRequest({table:"chaine", join:`user ON user.id_Chaine=chaine.id_Chaine AND user.id_User=${user.id_User}`}).then((response)=>{
+            return response.text().then((resp) => {
+                if (resp) {
+
+                    resp = JSON.parse(resp); 
+                    resp = resp[0];
+                    this.setState({ nbAbonnes: resp.nb_abonne })
+                    this.setState({ desc: resp.description_Chaine })
+                    this.setState({ idChaine: resp.id_Chaine })
+                }
+            });
+
+
+        })
+    }
+
 
     render() {
 
         const { user } = this.context
 
+        
         return (
 
             <>
@@ -62,8 +80,8 @@ class MaChaine extends Component {
                 <div className="d-flex align-items-center pt-4 pl-3">
                     <img src={user.avatar} style={{ maxHeight: 150, maxWidth: 150 }} />
                     <Col className="mt-3">
-                        <h3>{user.pseudo}</h3>
-                        <p>xx abonnés</p>
+                        <h3>{user.pseudo_User}</h3>
+                        <p>{this.state.nbAbonnes < 1 ? <>{this.state.nbAbonnes} abonné</> : <>{this.state.nbAbonnes} abonnés</>}</p>
                     </Col>
                     <Button variant="primary">Personnaliser la chaîne</Button>
                     <Button variant="primary ml-3 mr-5">Gérer les vidéos</Button>

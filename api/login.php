@@ -2,6 +2,7 @@
 
 header('Access-Control-Allow-Origin: *');
 
+
 require 'Db.php';
 
 use ReallySimpleJWT\Token;
@@ -23,13 +24,12 @@ if($_SERVER["REQUEST_METHOD"] == 'POST'){
             'orderBy' => null
         ];
         $user = Db::select("user", $params);
-
         if(count($user) == 1){
             $user = $user[0];
             $dbpass = Db::$prefix.$user["password"];
             $test = password_verify($_post['password'], $dbpass);
             if($test){
-                $userId = $user['id'];
+                $userId = $user['id_User'];
                 $expiration = time() + (30 * 86400);
                 $role = $user['id_Role'];
                 $token = Token::create($userId, $secret, $expiration, $role);
