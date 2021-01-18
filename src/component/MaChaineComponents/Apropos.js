@@ -18,10 +18,10 @@ class Apropos extends Component {
         
     }
         
-    handleInputChange(value) {
-        this.setState({ desc: value })
-        this.props.onValueChange(value);
-
+    handleInputChange(e, props) {
+        this.setState({ desc: e.value })
+        this.props.onValueChange(e.value);
+        
 
     }
 

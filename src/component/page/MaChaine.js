@@ -40,7 +40,7 @@ class MaChaine extends Component {
 
             case "videos": return (<Videos />);
 
-            case "apropos": return (<Apropos desc={this.state.desc} idChaine={this.state.idChaine}  onValueChange={this.handleInputChange}/>);
+            case "apropos": return (<Apropos desc={this.state.desc} idChaine={this.state.idChaine} event="modifApropos"  onValueChange={this.handleInputChange}/>);
         }
     }
 

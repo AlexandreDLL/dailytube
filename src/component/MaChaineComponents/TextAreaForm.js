@@ -17,13 +17,18 @@ class TextAreaForm extends React.Component {
   
     handleChange(event) {
       this.setState({value: event.target.value});
-      this.props.onValueChange(event.target.value);
+      this.props.onValueChange(event.target, this.props);
 
     }
   
     handleSubmit(event) {
+        
+        event.preventDefault();
 
-        if (this.props.event === "modifDescription") {
+        let evenType = this.props.event
+
+
+        if (evenType === "modifDescription") {
 
             Rest.apiRequest({table:"chaine", params:{description_Chaine:this.state.value, id:this.props.idChaine}, token:localStorage.getItem('token')},'PUT').then((response)=>{
             return response.text().then((resp) => {
@@ -32,12 +37,61 @@ class TextAreaForm extends React.Component {
                 }
             });
         })
+    }
 
+        
+        if (evenType === "modifUserName"){
 
+            // console.log("text");
+            // console.log(this.state.value);
+            // console.log(this.props);
 
+            Rest.apiRequest({table:"user", params:{pseudo_User:this.state.value, id:this.props.id}, token:localStorage.getItem('token')},'PUT').then((response)=>{
+                return response.text().then((resp) => {
+                    if (resp) {
+                        alert('Le nom utilisateur a été modifié :  ' + this.state.value);
+                    }
+                });
+            })
 
         }
-      event.preventDefault();
+        if (evenType === "modifRealName"){
+
+          Rest.apiRequest({table:"user", params:{prenom_User:this.state.value, id:this.props.id}, token:localStorage.getItem('token')},'PUT').then((response)=>{
+            return response.text().then((resp) => {
+                if (resp) {
+                    alert('Le prénom réel a été modifié :  ' + this.state.value);
+                }
+            });
+        })
+
+        }
+        if (evenType === "modifRealFamilyName"){
+
+          Rest.apiRequest({table:"user", params:{nom_User:this.state.value, id:this.props.id}, token:localStorage.getItem('token')},'PUT').then((response)=>{
+            return response.text().then((resp) => {
+                if (resp) {
+                    alert('Le nom réel a été modifié :  ' + this.state.value);
+                }
+            });
+        })
+
+        }
+        if (evenType === "modifEmail"){
+
+          Rest.apiRequest({table:"user", params:{email:this.state.value, id:this.props.id}, token:localStorage.getItem('token')},'PUT').then((response)=>{
+            return response.text().then((resp) => {
+                if (resp) {
+                    alert("L'email a été modifié :  " + this.state.value);
+                }
+            });
+        })
+
+        }
+
+
+
+        
     }
   
     render() {
