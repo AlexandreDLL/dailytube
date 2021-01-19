@@ -68,24 +68,24 @@ class FormLogin extends Component {
                         const body = { email: values.email, password: values.password };
                         Rest.apiRequest(body, 'POST', true).then(resp => resp.text())
                             .then(resp => {
-                                try{
+                                try {
                                     resp = JSON.parse(resp);
+                                    if (resp) {
+                                        let user = resp.user;
+                                        setUser(user);
+                                        localStorage.setItem('token', resp.token);
+                                        if (values.remember) {
+                                            localStorage.setItem('user', user.id_User);
+                                        }
+                                        this.props.handleClick();
+                                    }
+                                    else {
+                                        this.setState({ msgErr: true });
+                                    }
                                 }
-                                catch(e){
+                                catch (e) {
                                     console.log(resp);
                                     console.log('Erreur:' + e);
-                                }
-                                if (resp) {
-                                    let user = resp.user;
-                                    setUser(user);
-                                    localStorage.setItem('token', resp.token);
-                                    if (values.remember) {
-                                        localStorage.setItem('user', user.id_User);
-                                    }
-                                    this.props.handleClick();
-                                }
-                                else {
-                                    this.setState({ msgErr: true });
                                 }
                             })
                     }}

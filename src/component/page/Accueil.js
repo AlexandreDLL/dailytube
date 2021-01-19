@@ -11,7 +11,7 @@ class Accueil extends Component {
         return (
             <div>
                 {user !== null ? 
-                    user.id_Role === '2' ? 
+                    user.id_Role === 2 ? 
                     <h1>Bonjour Admin {user.prenom_User}</h1> : 
                     <h1>Bonjour {user.prenom_User}</h1> : 
                 <h1>AccueilTest</h1>

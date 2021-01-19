@@ -176,27 +176,33 @@ class FormRegister extends Component {
                         };
                         Rest.apiRequest(body, 'POST').then(resp => resp.text())
                             .then(resp => {
-                                if (resp) {
-                                    if (resp === 'pseudo exist') {
-                                        this.setState({
-                                            showErr: true, msgErr: (this.props.language === 'Français' ?
-                                                "Ce pseudo n'est pas disponible, veuillez en saisir un autre." :
-                                                "This username is not available, please enter a different one.")
-                                        });
-                                    }
-                                    else if (resp === 'email exist') {
-                                        this.setState({
-                                            showErr: true, msgErr: (this.props.language === 'Français' ?
-                                                "Un compte existe avec cet email." :
-                                                "An account exists with this email.")
-                                        });
+                                try {
+                                    resp = JSON.parse(resp);
+                                    if (resp) {
+                                        if (resp === 'pseudo exist') {
+                                            this.setState({
+                                                showErr: true, msgErr: (this.props.language === 'Français' ?
+                                                    "Ce pseudo n'est pas disponible, veuillez en saisir un autre." :
+                                                    "This username is not available, please enter a different one.")
+                                            });
+                                        }
+                                        else if (resp === 'email exist') {
+                                            this.setState({
+                                                showErr: true, msgErr: (this.props.language === 'Français' ?
+                                                    "Un compte existe avec cet email." :
+                                                    "An account exists with this email.")
+                                            });
+                                        }
+                                        else {
+                                            this.props.handleClick();
+                                        }
                                     }
                                     else {
-                                        this.props.handleClick();
+                                        this.props.handleClick(true);
                                     }
                                 }
-                                else {
-                                    this.props.handleClick(true);
+                                catch (e) {
+                                    console.log(e);
                                 }
                             });
                         // this.moveAvatar(values.avatar);

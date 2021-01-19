@@ -22,21 +22,19 @@ class UserProvider extends Component {
                 .then(resp => {
                     try {
                         resp = JSON.parse(resp)[0];
-                    }
-                    catch (e) {
-                        console.error('Erreur:' + e);
-                    }
-                    if (resp) {
-                        if (resp.constructor === Object) {
+                        if (resp) {
                             this.setUser(resp);
                         }
                         else {
                             localStorage.removeItem('user');
                             localStorage.removeItem('token');
+                            console.log(resp);
                         }
                     }
-                    else {
-                        console.log(resp);
+                    catch (e) {
+                        localStorage.removeItem('user');
+                        localStorage.removeItem('token');
+                        console.error('Erreur:' + e);
                     }
                 });
         }

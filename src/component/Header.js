@@ -162,12 +162,12 @@ class Header extends React.Component {
                         <FormControl type="text" placeholder={this.state.terms.recherche} className="mr-sm-2 w-75" style={{ backgroundColor: "#e2e2e2" }} />
                     </Form>
                     <Protected noauth>
-                        <Nav.Link role="button" onClick={handleShow} className="ml-auto" style={{ padding: "16px 30px" }}>
+                        <Nav.Link role="button" onClick={handleShow} style={{ padding: "16px 30px" }}>
                             <FaUser className="color-green" style={{ fontSize: 32 }} />
                         </Nav.Link>
                     </Protected>
                     <Protected>
-                        <NavDropdown title={<img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-navbar" />} id="dropdown-account" className="ml-auto">
+                        <NavDropdown title={<img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-navbar" />} id="dropdown-account">
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/compte" className="color-green text-decoration-none d-flex align-items-center">
                                     {this.state.terms.monCompte}

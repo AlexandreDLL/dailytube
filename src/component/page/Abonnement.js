@@ -17,20 +17,9 @@ class Abonnement extends Component {
 
     static contextType = UserContext;
 
-    objSelect = {
-        request: ''
-    };
-
     componentDidMount() {
         const { user } = this.context;
-        let select = 'SELECT id_Video, titre_Video, description_Video, nb_vue, date_Video, miniature, active_Video, pseudo_User ';
-        let from = 'FROM video ';
-        let join = 'JOIN chaine ON video.id_Chaine = chaine.id_Chaine JOIN user ON chaine.id_Chaine = user.id_Chaine JOIN abonner ON chaine.id_Chaine = abonner.id_Chaine ';
-        let where = 'WHERE abonner.id_User = ' + user.id_User;
-        let orderBy = ' ORDER BY video.date_Video DESC';
-        let request = select + from + join + where + orderBy;
-        this.objSelect = { request };
-        Rest.apiRequest(this.objSelect).then(resp => resp.json())
+        Rest.apiRequest({table: 'video', id: user.id_User, url: 'abonnement'}).then(resp => resp.json())
             .then(
                 (resp) => {
                     if (resp) {
@@ -93,7 +82,7 @@ class Abonnement extends Component {
                                 mois = '0' + mois;
                             }
                             date = `${jour}/${mois}/${annee}`;
-                            let vues = item.nb_vue;
+                            let vues = String(item.nb_vue);
                             if (vues > 999 && vues < 1000000) {
                                 let nb = vues.slice(0, -3);
                                 vues = nb + ' k';
