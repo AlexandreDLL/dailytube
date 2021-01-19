@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import UserContext from "../../context/UserContext"
 import Rest from "../../Rest"
-import { Chaine } from '../page';
 import {TextAreaForm} from './TextAreaForm'
 
 // TODO :  Que la modif fonctionne
@@ -55,6 +54,7 @@ class Apropos extends Component {
     render() {
 
                 const {user} = this.context
+
                 let date = user.date_inscription;
                 date = date.split(" ")[0]
 

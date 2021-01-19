@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UserContext from "../../context/UserContext"
-import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab, Alert, Button, Row, Col } from 'react-bootstrap';
+import { Nav, Button, Col } from 'react-bootstrap';
 import Accueil from '../MaChaineComponents/Accueil';
 import Apropos from '../MaChaineComponents/Apropos';
 import Videos from '../MaChaineComponents/Videos';
@@ -25,12 +25,6 @@ class MaChaine extends Component {
 
 
     static contextType = UserContext;
-
-    componentDidMount() {
-
-        const { user } = this.context
-    }
-
 
 
     displayState = () => {

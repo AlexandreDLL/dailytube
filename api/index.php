@@ -43,7 +43,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $join = isset($_get['join']) ? $_get['join'] : null;
         $authoTables = [];
         if($token == null){
-            $authoTables = ['chaine', 'video', 'categorie', 'playlist', 'lister', 'reponse', 'commentaire'];
+            $authoTables = ['chaine', 'video', 'categorie', 'playlist', 'lister', 'reponse', 'commentaire', 'user'];
         }
         else{
             $valid = Token::validate($token, $secret);
@@ -66,6 +66,10 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             }
         }
         else{
+            // var_dump("Passé par la");
+            var_dump($authorization);
+            var_dump($authoTables);
+
             exit();
         }
     case 'POST':
@@ -136,6 +140,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         }
         $authorization = getAuthorization($table, $authoTables);
         if($authorization){
+            // echo ("Ca a l'air bon");
             echo Db::update($table, $params);
             break;
         }

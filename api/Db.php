@@ -46,6 +46,7 @@ class Db {
         if(isset($condition)){
             $where = $condition['attribut'].' '.$condition['operator'].' ?';
             $params[] = $condition['value'];
+
         }
 
         if(isset($id) && isset($where)){

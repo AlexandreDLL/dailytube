@@ -1,5 +1,7 @@
 class Rest {
 
+    static prefixMiniature = 'asset/img/user/';
+
     static bindObjectUrl(obj) {
         obj = Object.keys(obj)
             .map((key) => key + "=" + obj[key])

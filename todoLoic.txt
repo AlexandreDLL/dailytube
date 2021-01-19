@@ -2,10 +2,20 @@ View : MaChaine
 
 TODO - Faire en sorte que les boutons servent a qque chose au lieu de faire joli, ou les virer
 
-TODO Faire les composants : Accueil - Vidéos
+Accueil
+TODO : Tout
+        // TODO : Une 2e requête pour les playlists
+        // TODO : Gérer l'affichage des playlists et autre comme pour videos.js dans le render
+
+Vidéos
+TODO : Fix les images des Vidéos
+
+A propos :
+Clear
 
 
 
 View : Compte
 
-TODO : Ajouter les protections, faire mieux avec un seul formulaire
+DONE : Ajouter les protections (login et pseudo uniques dans la DB), faire mieux avec un seul formulaire et set l'User du Context
+TODO : demander la verif du mdp avant un update ?

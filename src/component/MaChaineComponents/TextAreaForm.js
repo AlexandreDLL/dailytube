@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Rest from "../../Rest"
+import UserContext from "../../context/UserContext"
+
 
 
 
@@ -14,6 +16,9 @@ class TextAreaForm extends React.Component {
       this.handleSubmit = this.handleSubmit.bind(this);
       
     }
+
+    static contextType = UserContext;
+
   
     handleChange(event) {
       this.setState({value: event.target.value});
@@ -24,6 +29,9 @@ class TextAreaForm extends React.Component {
     handleSubmit(event) {
         
         event.preventDefault();
+
+        const { setUser } = this.context
+
 
         let evenType = this.props.event
 
@@ -50,6 +58,7 @@ class TextAreaForm extends React.Component {
                 return response.text().then((resp) => {
                     if (resp) {
                         alert('Le nom utilisateur a été modifié :  ' + this.state.value);
+                        
                     }
                 });
             })
