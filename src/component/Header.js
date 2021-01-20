@@ -3,6 +3,7 @@ import { Navbar, NavDropdown, Form, FormControl, Nav, Modal, Tabs, Tab, Alert } 
 import { FaBars, FaFilm, FaHome, FaPlayCircle, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import UserContext from '../context/UserContext';
+import Utils from '../Utils';
 import { FormLogin, FormRegister } from './index';
 import { Protected } from './Protected';
 
@@ -121,40 +122,40 @@ class Header extends React.Component {
                             <div className="navbar-abonnement">
                                 <NavDropdown.Item className="my-2" as="div">
                                     <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
-                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
-                                </NavDropdown.Item>
+                                </NavDropdown.Item>                       
                                 <NavDropdown.Item className="my-2" as="div">
                                     <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
-                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
-                                </NavDropdown.Item>
+                                </NavDropdown.Item>                       
                                 <NavDropdown.Item className="my-2" as="div">
                                     <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
-                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
-                                </NavDropdown.Item>
+                                </NavDropdown.Item>                       
                                 <NavDropdown.Item className="my-2" as="div">
                                     <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
-                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
-                                </NavDropdown.Item>
+                                </NavDropdown.Item>                       
                                 <NavDropdown.Item className="my-2" as="div">
                                     <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
-                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
-                                </NavDropdown.Item>
+                                </NavDropdown.Item>                       
                                 <NavDropdown.Item className="my-2" as="div">
                                     <Link to="/chaine" className="color-green text-decoration-none d-flex align-items-center">
-                                        <img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-chaine mr-2" />
+                                        <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-chaine mr-2" />
                                         Jean-Michel
                                     </Link>
-                                </NavDropdown.Item>
+                                </NavDropdown.Item>                       
                             </div>
                         </Protected>
                     </NavDropdown>
@@ -167,7 +168,7 @@ class Header extends React.Component {
                         </Nav.Link>
                     </Protected>
                     <Protected>
-                        <NavDropdown title={<img src="asset/img/logo/logo_DailyTube.png" alt="logo" className="logo-navbar" />} id="dropdown-account">
+                        <NavDropdown title={<img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-navbar" />} id="dropdown-account">
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/compte" className="color-green text-decoration-none d-flex align-items-center">
                                     {this.state.terms.monCompte}

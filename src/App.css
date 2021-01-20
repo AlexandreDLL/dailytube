@@ -3,6 +3,10 @@
   margin: 0 !important;
 }
 
+.marginTop.row{
+  margin-top: 120px !important;
+}
+
 .bg-green{
   background-color: #21a65f !important;
 }
@@ -22,6 +26,14 @@ a.color-green:hover{
 .btn-green{
   background-color: #21a65f !important;
   color: #2f2c2c !important;
+}
+
+.shadow-card{
+  box-shadow: 9px 9px 11px #211d1d;
+}
+
+.fs-24{
+  font-size: 24px;
 }
 
 .t-2{

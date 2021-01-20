@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
+import { FaFacebookSquare, FaTwitter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import LanguageContext from '../context/LanguageContext';
+import Utils from '../Utils';
 
 class Footer extends Component {
 
@@ -65,7 +67,7 @@ class Footer extends Component {
         return (
             <Navbar bg="black" expand="lg" className="d-flex justify-content-between">
                 <div>
-                    <img src="asset/img/logo/logo_DailyTube.png" alt="Logo" className="logo-footer" />
+                    <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="Logo" className="logo-footer" />
                     <p className="color-green">© 2020 DailyTube</p>
                 </div>
                 <Nav>
@@ -122,10 +124,10 @@ class Footer extends Component {
                     </Navbar.Text>
                     <div className="d-flex justify-content-center">
                         <div style={{ display: "inline", marginRight: 20 }}>
-                            <img className="logo-language" src="asset/img/logo/france-icon.png" alt="Icon Français" title="Français" onClick={this.handleClickLanguage.bind(this)}/>
+                            <img className="logo-language" src={Utils.prefixLogo + "france-icon.png"} alt="Icon Français" title="Français" onClick={this.handleClickLanguage.bind(this)}/>
                         </div>
                         <div className="d-flex align-content-center">
-                            <img className="logo-language" src="asset/img/logo/english-icon.png" alt="Icon English" title="English" onClick={this.handleClickLanguage.bind(this)}/>
+                            <img className="logo-language" src={Utils.prefixLogo + "english-icon.png"} alt="Icon English" title="English" onClick={this.handleClickLanguage.bind(this)}/>
                         </div>
                     </div>
                     <Navbar.Text className="navbar-title">
@@ -133,10 +135,10 @@ class Footer extends Component {
                     </Navbar.Text>
                     <div className="d-flex justify-content-center">
                         <Nav.Link href="https://fr-fr.facebook.com/" target="_blank" style={{ display: "inline", marginRight: 20 }}>
-                            <i className="fab fa-facebook-square font-reseaux" style={{ color: '#3b5998' }}></i>
+                            <FaFacebookSquare className="font-reseaux" style={{ color: '#3b5998' }} />
                         </Nav.Link>
                         <Nav.Link href="https://twitter.com/?lang=fr" target="_blank">
-                            <i className="fab fa-twitter font-reseaux" style={{ color: '#00aced' }}></i>
+                            <FaTwitter className="font-reseaux" style={{ color: '#00aced' }} />
                         </Nav.Link>
                     </div>
                 </Nav>

@@ -16,7 +16,7 @@ class Main extends Component {
                     <Route path="/chaine">
                         <Chaine />
                     </Route>
-                    <Route path="/video">
+                    <Route path="/video/:id">
                         <Video />
                     </Route>
                     <ProtectedRoute path="/compte" component={Compte} />
