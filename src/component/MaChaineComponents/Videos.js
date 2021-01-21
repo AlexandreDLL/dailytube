@@ -83,6 +83,7 @@ class Videos extends Component {
         else if (videos.length > 0) {
             return (
                 <>
+                <h1>Vos vidéos publiées</h1>
                     <div className="row">
                         {videos.map(item => {
                             let date = new Date(item.date_Video);
@@ -134,6 +135,7 @@ class Videos extends Component {
                                 );
                             } else if (item.active_Video == 0){
                                 return (
+                                    <>
                                     <div key={item.id_Video} className="col-xl-2 col-lg-3 col-md-4 col-sm-6 d-flex justify-content-center mt-5">
                                         <Link to="/video" className="text-decoration-none">
                                             <Card className="bg-black text-white" style={{ width: '18rem' }}>
@@ -158,6 +160,7 @@ class Videos extends Component {
                                             </Card>
                                         </Link>
                                     </div>
+                                    </>
                                 );
                             }
                             else {
@@ -172,7 +175,7 @@ class Videos extends Component {
             return (
                 <div className="vh-100 d-flex align-items-center" style={{ marginTop: -80 }}>
                     <Alert variant='success' className='text-center w-100'>
-                        Vous retrouverez les vidéos de vos abonnements ici.
+                        Vous retrouverez vos vidéos ici.
                     </Alert>
                 </div>
             );

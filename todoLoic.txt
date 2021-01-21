@@ -6,9 +6,10 @@ Accueil
 TODO : Tout
         // TODO : Une 2e requête pour les playlists
         // TODO : Gérer l'affichage des playlists et autre comme pour videos.js dans le render
+        // TODO : Les faire trier par ordre précis
 
 Vidéos
-TODO : Fix les images des Vidéos
+TODO : Fix les images des Vidéos  // Les faire trier par ordre précis
 
 A propos :
 Clear
