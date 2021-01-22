@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Accueil, Abonnement, Chaine, Compte, MaChaine, Playlist, Upload, ErrorView } from './page';
+import { Accueil, Abonnement, Chaine, Video, Compte, MaChaine, Playlist, Upload, ErrorView } from './page';
 import ProtectedRoute from './ProtectedRoute';
 
 class Main extends Component {
@@ -15,6 +15,9 @@ class Main extends Component {
                     <ProtectedRoute path="/playlist" component={Playlist} />
                     <Route path="/chaine">
                         <Chaine />
+                    </Route>
+                    <Route path="/video/:id">
+                        <Video />
                     </Route>
                     <ProtectedRoute path="/compte" component={Compte} />
                     <ProtectedRoute path="/machaine" component={MaChaine} />

@@ -161,42 +161,48 @@ class FormRegister extends Component {
                         const body = {
                             table: 'user',
                             params: {
-                                nom: values.nom,
-                                prenom: values.prenom,
-                                pseudo: values.pseudo,
+                                nom_User: values.nom,
+                                prenom_User: values.prenom,
+                                pseudo_User: values.pseudo,
                                 date_naissance: values.dateNaissance,
                                 date_inscription: currentTime,
                                 avatar: (values.avatar !== '' ? values.avatar : null),
                                 email: values.email,
                                 password: values.password,
-                                active: 1,
-                                valide: 1,
-                                id_role: 1
+                                active_User: 1,
+                                valide_User: 1,
+                                id_Role: 1
                             }
                         };
                         Rest.apiRequest(body, 'POST').then(resp => resp.text())
                             .then(resp => {
-                                if (resp) {
-                                    if (resp === 'pseudo exist') {
-                                        this.setState({
-                                            showErr: true, msgErr: (this.props.language === 'Français' ?
-                                                "Ce pseudo n'est pas disponible, veuillez en saisir un autre." :
-                                                "This username is not available, please enter a different one.")
-                                        });
-                                    }
-                                    else if (resp === 'email exist') {
-                                        this.setState({
-                                            showErr: true, msgErr: (this.props.language === 'Français' ?
-                                                "Un compte existe avec cet email." :
-                                                "An account exists with this email.")
-                                        });
+                                try {
+                                    resp = JSON.parse(resp);
+                                    if (resp) {
+                                        if (resp === 'pseudo exist') {
+                                            this.setState({
+                                                showErr: true, msgErr: (this.props.language === 'Français' ?
+                                                    "Ce pseudo n'est pas disponible, veuillez en saisir un autre." :
+                                                    "This username is not available, please enter a different one.")
+                                            });
+                                        }
+                                        else if (resp === 'email exist') {
+                                            this.setState({
+                                                showErr: true, msgErr: (this.props.language === 'Français' ?
+                                                    "Un compte existe avec cet email." :
+                                                    "An account exists with this email.")
+                                            });
+                                        }
+                                        else {
+                                            this.props.handleClick();
+                                        }
                                     }
                                     else {
-                                        this.props.handleClick();
+                                        this.props.handleClick(true);
                                     }
                                 }
-                                else {
-                                    this.props.handleClick(true);
+                                catch (e) {
+                                    console.log(e);
                                 }
                             });
                         // this.moveAvatar(values.avatar);

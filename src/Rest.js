@@ -1,52 +1,55 @@
+import config from "./config";
+
 class Rest {
 
-    static bindObjectUrl(obj) {
-        obj = Object.keys(obj)
-            .map((key) => key + "=" + obj[key])
-            .join("&");
-        return obj;
-    }
-
-    static createGetUrl(body){
-        let params = body.params;
-        delete body.params;
-        if(params.id === null){
-            delete params.id;
-        }
-        if(params.condition === null){
-            delete params.condition;
-        }
-        if(params.orderBy === null){
-            delete params.orderBy;
-        }
-        body = this.bindObjectUrl(body);
-        if(Object.keys(params).length > 0){
-            params = this.bindObjectUrl(params);
-            body = body + params;
-        }
-        return body;
-    }
-
     static apiRequest(body, method = 'GET', login = false) {
-        let url;
-        if (!login) {
-            url = 'http://api.loc/index.php';
+        let url = config.api.baseUrl;
+        let headers = {
+            'Content-Type': 'application/json'
+        };
+        if (login) {
+            url += 'user/login';
+            body.login = true;
         }
-        else {
-            url = 'http://api.loc/login.php';
-        }
-        if (localStorage.getItem('user') != null && localStorage.getItem('token') != null) {
+        if (localStorage.getItem('user') != null && login) {
             let user = localStorage.getItem('user');
-            let token = localStorage.getItem('token');
             body.user = parseInt(user);
-            body.token = token;
         }
         let options = { method };
         if (method !== 'GET') {
+            if (body.url !== undefined) {
+                url += `${body.table}/${body.url}`;
+                delete body.url;
+            }
+            if (localStorage.getItem('token') != null) {
+                let token = localStorage.getItem('token');
+                headers = {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                };
+            }
+            options.headers = headers;
             options.body = JSON.stringify(body);
         }
         else {
-            url += '?' + this.createGetUrl(body);
+            if (localStorage.getItem('token') != null) {
+                let token = localStorage.getItem('token');
+                headers = {
+                    'Content-Type': 'application/json',
+                    'authorization': token,
+                    'allow': body.table
+                };
+            }
+            else {
+                headers = {
+                    'Content-Type': 'application/json',
+                    'allow': body.table
+                };
+            }
+            for (const key in body) {
+                url += body[key] + '/';
+            }
+            options.headers = headers;
         }
         try {
             return fetch(url, options);

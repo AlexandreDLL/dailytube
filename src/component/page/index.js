@@ -1,3 +1,4 @@
+import Video from './Video';
 export * from './Accueil';
 export * from './Abonnement';
 export * from './Playlist';
@@ -6,3 +7,4 @@ export * from './Chaine';
 export * from './MaChaine';
 export * from './Upload';
 export * from './404';
+export { Video };
