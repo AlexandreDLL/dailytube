@@ -68,7 +68,7 @@ class Footer extends Component {
             <Navbar bg="black" expand="lg" className="d-flex justify-content-between">
                 <div>
                     <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="Logo" className="logo-footer" />
-                    <p className="color-green">© 2020 DailyTube</p>
+                    <p className="color-green text-center">© 2020 DailyTube</p>
                 </div>
                 <Nav>
                     <ul>

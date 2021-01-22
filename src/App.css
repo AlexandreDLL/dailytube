@@ -28,12 +28,28 @@ a.color-green:hover{
   color: #2f2c2c !important;
 }
 
+.btn-outline-green{
+  border-color: #21a65f !important;
+  background-color: #2f2c2c !important;
+  color: #21a65f !important;
+}
+
+.btn-outline-green:hover{
+  border-color: #2f2c2c !important;
+  background-color: #21a65f !important;
+  color: #2f2c2c !important;
+}
+
 .shadow-card{
   box-shadow: 9px 9px 11px #211d1d;
 }
 
 .fs-24{
   font-size: 24px;
+}
+
+.cursor-pointer:hover{
+  cursor: pointer !important;
 }
 
 .t-2{

@@ -26,7 +26,7 @@ class App extends Component {
             <main style={{ marginTop: 80 }}>
               <Main />
             </main>
-            <footer style={{marginTop: 50 }}>
+            <footer style={{marginTop: 30 }}>
               <LanguageContext.Consumer>
                 {({ language }) =>
                   <Footer language={language} />
