@@ -162,99 +162,93 @@ class ChangeInfo extends Component {
                                 active_User: 1,
                                 valide_User: 1,
                                 id_role: user.id_Role,
-                                id : user.id_User
                             },
+                            id: user.id_User,
                             token : localStorage.getItem("token")
                         };
 
-                        // Modèle : 
-                        // SELECT * FROM `user` WHERE `pseudo_User`='eeldin4' AND `id_User` !='5'
 
-
-                        let select = 'SELECT * ';
-                        let from = "FROM `user` "
-                        let where = `WHERE pseudo_User='${values.pseudo}' AND id_User !=${user.id_User}` 
-
-                        let request = select + from + where;
-
-                        Rest.apiRequest({request}).then(resp => resp.json())  // Vérifies qu'un autre user n'a pas le pseudo dans la base de données
+                        Rest.apiRequest({table:"user", id:user.id_User, verifyName:values.pseudo}).then(resp => resp.text())  // Vérifies qu'un autre user n'a pas le pseudo dans la base de données
                         .then((resp) => {
 
-                            if (!resp[0]){   // Si jamais il n'y a pas d'autre user avec ce pseudo, on continue et on vérifie le mail
+                            try {
+                                resp = JSON.parse(resp);
 
-
-                                select = 'SELECT * ';
-                                from = "FROM `user` ";
-                                where = `WHERE email='${values.email}' AND id_User !=${user.id_User}` ;
-
-                                request = select + from + where;
-                                
-                                // console.log(request)
-
-                                Rest.apiRequest({request}).then(resp => resp.json())  // Vérifies qu'un autre user n'a pas le email dans la base de données
-                                .then((resp) => {
-
-
-                                    if (!resp[0]){  // Si jamais il n'y a pas d'autre user avec ce pseudo ni ce mail, on va faire l'update
-
-                                    console.log("En route vers l'update")
-
-                                    Rest.apiRequest(body, "PUT").then(resp => resp.text())
+                                if (!resp[0]){   // Si jamais il n'y a pas d'autre user avec ce pseudo, on continue et on vérifie le mail    
+    
+    
+                                    Rest.apiRequest({table:"user", id:user.id_User, url:"verify" ,verifyLogin:values.email}).then(resp => resp.text())  // Vérifies qu'un autre user n'a pas le email dans la base de données
                                     .then((resp) => {
 
-                                        console.log("user");
-                                        console.log(user);
+                                        try {
+                                            resp = JSON.parse(resp);
+                                                
+                                        if (!resp[0]){  // Si jamais il n'y a pas d'autre user avec ce pseudo ni ce mail, on va faire l'update
+    
+                                        alert("En route vers l'update")
+    
+                                        Rest.apiRequest(body, "PUT").then(resp => resp.text())
+                                        .then((resp) => {
+    
+                                            console.log("user");
+                                            console.log(user);
+    
+                                            let newInfoUser = {
+                                                nom_User: values.nom,
+                                                prenom_User: values.prenom,
+                                                pseudo_User: values.pseudo,
+                                                date_naissance: values.dateNaissance,
+                                                date_inscription: user.date_inscription,
+                                                avatar: (values.avatar !== '' ? values.avatar : null),
+                                                email: values.email,
+                                                active_User: 1,
+                                                valide_User: 1,
+                                                id_role: user.id_Role,
+                                                id_User : user.id_User,
+                                                id_Chaine: user.id_Chaine
+                                            };
+    
+                                            console.log(newInfoUser)
+                                            setUser(newInfoUser)
+    
+                                            console.log(String(newInfoUser.pseudo_User))
+    
+    
+    
+    
+    
+                                            
+    
+                                            
+    
+    
+                                            alert("Vos informations ont bien été modifiées")
+                                            this.props.onValidation(String(newInfoUser.pseudo_User)) // Fais un setState au parent qui ferme le formulaire
+    
+    
+                                        })
+                                      
+                                        } else { // Sinon on s'arrête
+                                            alert("Email déjà pris")
+                                        }
 
-                                        let newInfoUser = {
-                                            nom_User: values.nom,
-                                            prenom_User: values.prenom,
-                                            pseudo_User: values.pseudo,
-                                            date_naissance: values.dateNaissance,
-                                            date_inscription: user.date_inscription,
-                                            avatar: (values.avatar !== '' ? values.avatar : null),
-                                            email: values.email,
-                                            active_User: 1,
-                                            valide_User: 1,
-                                            id_role: user.id_Role,
-                                            id_User : user.id_User,
-                                            id_Chaine: user.id_Chaine
-                                        };
+                                        } catch(e) {console.log("error", e)}
+    
 
-                                        console.log(newInfoUser)
-                                        setUser(newInfoUser)
-
-                                        console.log(String(newInfoUser.pseudo_User))
-
-
-
-
-
-                                        
-
-                                        
-
-
-                                        alert("Vos informations ont bien été modifiées")
-                                        this.props.onValidation(String(newInfoUser.pseudo_User)) // Fais un setState au parent qui ferme le formulaire
-
-
+    
                                     })
+    
                                     
+    
+                                } else{ // Sinon on s'arrête
+                                    alert("Pseudo déjà pris")
+                                }
 
 
-
-
-                                    } else { // Sinon on s'arrête
-                                        alert("Email déjà pris")
-                                    }
-
-                                })
 
                                 
+                            } catch(e) {console.log("error", e)}
 
-                            } else{ // Sinon on s'arrête
-                                alert("Pseudo déjà pris")
-                            }
 
                         })
 
