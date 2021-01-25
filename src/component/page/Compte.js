@@ -64,7 +64,7 @@ class Compte extends Component {
                     <h1 style={{ marginLeft: "45vw" }}>Mon compte</h1>
                     <div className="d-flex" style={{ marginLeft: "20vw" }}>
                         <div className="mt-5">
-                            <img src={user.avatar} alt="Votre image de profil" />
+                            <img src={user.avatar} alt="Votre avatar" />
                         </div>
                         {this.state.isOnEdit === true ? <ChangeInfo language="Français" onValidation={this.editMode2} />:                          <div className="mt-5 ml-4">
                             <h6 >Nom d'utilisateur</h6> <p>{this.state.userName}</p>

@@ -82,7 +82,7 @@ class Accueil extends Component {
 
     renderVideos() {
 
-        const { error, isLoaded, videos, playlists } = this.state;
+        const { error, isLoaded, videos} = this.state;
 
         if (error) {
             return (
@@ -176,7 +176,7 @@ class Accueil extends Component {
     }
 
     renderPlaylist() {
-        const { error, isLoaded, videos, playlists } = this.state;
+        const { error, isLoaded, playlists } = this.state;
         if (error) {
             return (
                 <div className="vh-100 d-flex align-items-center" style={{ marginTop: -80 }}>

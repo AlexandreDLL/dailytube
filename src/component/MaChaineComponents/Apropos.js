@@ -40,8 +40,6 @@ class Apropos extends Component {
     render() {
 
         const { user } = this.context
-        let date = user.date_inscription;
-        date = date.split(" ")[0]
         let dateInscription = new Date(user.date_inscription);
 
         return (

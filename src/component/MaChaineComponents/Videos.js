@@ -118,7 +118,7 @@ class Videos extends Component {
                                         </Link>
                                     </div>
                                 );
-                            } else if (item.active_Video == 0){
+                            } else if (item.active_Video === 0){
                                 return (
                                     <>
                                     <div key={item.id_Video} className="col-xl-2 col-lg-3 col-md-4 col-sm-6 d-flex justify-content-center mt-5">

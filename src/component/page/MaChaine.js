@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UserContext from "../../context/UserContext"
-import { Nav, Button, Col } from 'react-bootstrap';
+import { Nav, Col } from 'react-bootstrap';
 import Accueil from '../MaChaineComponents/Accueil';
 import Apropos from '../MaChaineComponents/Apropos';
 import Videos from '../MaChaineComponents/Videos';
@@ -67,13 +67,13 @@ class MaChaine extends Component {
         return (
             <>
                 <div className="d-flex align-items-center pt-4 pl-3">
-                    <img src={user.avatar} style={{ maxHeight: 150, maxWidth: 150 }} />
+                    <img src={user.avatar} alt="Votre avatar" style={{ maxHeight: 150, maxWidth: 150 }} />
                     <Col className="mt-3">
                         <h3>{user.pseudo_User}</h3>
                         <p>{this.state.nbAbonnes < 1 ? <>{this.state.nbAbonnes} abonné</> : <>{this.state.nbAbonnes} abonnés</>}</p>
                     </Col>
-                    <Button variant="primary">Personnaliser la chaîne</Button>
-                    <Button variant="primary ml-3 mr-5">Gérer les vidéos</Button>
+                    {/* <Button variant="primary">Personnaliser la chaîne</Button>
+                    <Button variant="primary ml-3 mr-5">Gérer les vidéos</Button> */}
                 </div>
                 <div className="mt-4">
                     <nav variant="tabs">
