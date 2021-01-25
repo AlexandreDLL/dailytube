@@ -19,8 +19,6 @@ class ChangeInfo extends Component {
 
     static contextType = UserContext;
 
-
-
     showStatutMsg(errors, touched, name) {
         if (errors[name] && touched[name]) {
             return (
@@ -102,15 +100,12 @@ class ChangeInfo extends Component {
     render() {
 
         const { user, setUser } = this.context
-
         let terms = this.createTextLanguage();
-
         const supportedFormats = [
             'jpg',
             'jpeg',
             'png'
         ];
-
         const registerSchema = Yup.object().shape({
             nom: Yup.string()
                 .max(35, terms.errMaxNom)
@@ -142,7 +137,7 @@ class ChangeInfo extends Component {
                         nom: user.nom_User,
                         prenom: user.prenom_User,
                         pseudo: user.pseudo_User,
-                        dateNaissance: user.date_naissance,
+                        dateNaissance: String(user.date_naissance),
                         avatar: "",
                         email: user.email,
 
@@ -156,7 +151,6 @@ class ChangeInfo extends Component {
                                 prenom_User: values.prenom,
                                 pseudo_User: values.pseudo,
                                 date_naissance: values.dateNaissance,
-                                date_inscription: user.date_inscription,
                                 avatar: (values.avatar !== '' ? values.avatar : null),
                                 email: values.email,
                                 active_User: 1,
@@ -164,115 +158,70 @@ class ChangeInfo extends Component {
                                 id_role: user.id_Role,
                             },
                             id: user.id_User,
-                            token : localStorage.getItem("token")
+                            token: localStorage.getItem("token")
                         };
 
-
-                        Rest.apiRequest({table:"user", id:user.id_User, verifyName:values.pseudo}).then(resp => resp.text())  // Vérifies qu'un autre user n'a pas le pseudo dans la base de données
-                        .then((resp) => {
-
-                            try {
-                                resp = JSON.parse(resp);
-
-                                if (!resp[0]){   // Si jamais il n'y a pas d'autre user avec ce pseudo, on continue et on vérifie le mail    
-    
-    
-                                    Rest.apiRequest({table:"user", id:user.id_User, url:"verify" ,verifyLogin:values.email}).then(resp => resp.text())  // Vérifies qu'un autre user n'a pas le email dans la base de données
-                                    .then((resp) => {
-
-                                        try {
-                                            resp = JSON.parse(resp);
-                                                
-                                        if (!resp[0]){  // Si jamais il n'y a pas d'autre user avec ce pseudo ni ce mail, on va faire l'update
-    
-                                        alert("En route vers l'update")
-    
-                                        Rest.apiRequest(body, "PUT").then(resp => resp.text())
-                                        .then((resp) => {
-    
-                                            console.log("user");
-                                            console.log(user);
-    
-                                            let newInfoUser = {
-                                                nom_User: values.nom,
-                                                prenom_User: values.prenom,
-                                                pseudo_User: values.pseudo,
-                                                date_naissance: values.dateNaissance,
-                                                date_inscription: user.date_inscription,
-                                                avatar: (values.avatar !== '' ? values.avatar : null),
-                                                email: values.email,
-                                                active_User: 1,
-                                                valide_User: 1,
-                                                id_role: user.id_Role,
-                                                id_User : user.id_User,
-                                                id_Chaine: user.id_Chaine
-                                            };
-    
-                                            console.log(newInfoUser)
-                                            setUser(newInfoUser)
-    
-                                            console.log(String(newInfoUser.pseudo_User))
-    
-    
-    
-    
-    
-                                            
-    
-                                            
-    
-    
-                                            alert("Vos informations ont bien été modifiées")
-                                            this.props.onValidation(String(newInfoUser.pseudo_User)) // Fais un setState au parent qui ferme le formulaire
-    
-    
-                                        })
-                                      
-                                        } else { // Sinon on s'arrête
-                                            alert("Email déjà pris")
-                                        }
-
-                                        } catch(e) {console.log("error", e)}
-    
-
-    
-                                    })
-    
-                                    
-    
-                                } else{ // Sinon on s'arrête
-                                    alert("Pseudo déjà pris")
-                                }
-
-
-
-                                
-                            } catch(e) {console.log("error", e)}
-
-
-                        })
-
+                        Rest.apiRequest({ table: "user", id: user.id_User, verifyName: values.pseudo }).then(resp => resp.text())  // Vérifies qu'un autre user n'a pas le pseudo dans la base de données
+                            .then((resp) => {
+                                try {
+                                    resp = JSON.parse(resp);
+                                    if (!resp[0]) {   // Si jamais il n'y a pas d'autre user avec ce pseudo, on continue et on vérifie le mail    
+                                        Rest.apiRequest({ table: "user", id: user.id_User, url: "verify", verifyLogin: values.email }).then(resp => resp.text())  // Vérifies qu'un autre user n'a pas le email dans la base de données
+                                            .then((resp) => {
+                                                try {
+                                                    resp = JSON.parse(resp);
+                                                    if (!resp[0]) {  // Si jamais il n'y a pas d'autre user avec ce pseudo ni ce mail, on va faire l'update
+                                                        Rest.apiRequest(body, "PUT").then(resp => resp.text())
+                                                            .then((resp) => {
+                                                                let newInfoUser = {
+                                                                    nom_User: values.nom,
+                                                                    prenom_User: values.prenom,
+                                                                    pseudo_User: values.pseudo,
+                                                                    date_naissance: values.dateNaissance,
+                                                                    date_inscription: user.date_inscription,
+                                                                    avatar: (values.avatar !== '' ? values.avatar : null),
+                                                                    email: values.email,
+                                                                    active_User: 1,
+                                                                    valide_User: 1,
+                                                                    id_role: user.id_Role,
+                                                                    id_User: user.id_User,
+                                                                    id_Chaine: user.id_Chaine
+                                                                };
+                                                                setUser(newInfoUser)
+                                                                alert("Vos informations ont bien été modifiées")
+                                                                this.props.onValidation(String(newInfoUser.pseudo_User)) // Fais un setState au parent qui ferme le formulaire
+                                                            })
+                                                    } else { // Sinon on s'arrête
+                                                        alert("Email déjà pris")
+                                                    }
+                                                } catch (e) { console.log("error", e) }
+                                            })
+                                    } else { // Sinon on s'arrête
+                                        alert("Pseudo déjà pris")
+                                    }
+                                } catch (e) { console.log("error", e) }
+                            })
                     }}
                 >
                     {({ errors, touched }) => (
                         <Form className="mt-4">
-                        <label htmlFor="nom" className="color-green">
-                                    {terms.nom}
-                                </label>
+                            <label htmlFor="nom" className="color-green">
+                                {terms.nom}
+                            </label>
                             <div className="form-group">
                                 <Field name="nom" className="form-control" placeholder={terms.nom} />
                                 {this.showStatutMsg(errors, touched, "nom")}
                             </div>
                             <label htmlFor="prenom" className="color-green">
-                                    {terms.prenom}
-                                </label>
+                                {terms.prenom}
+                            </label>
                             <div className="form-group">
                                 <Field name="prenom" className="form-control" placeholder={terms.prenom} />
                                 {this.showStatutMsg(errors, touched, "prenom")}
                             </div>
                             <label htmlFor="pseudo" className="color-green">
-                                    {terms.pseudo}
-                                </label>
+                                {terms.pseudo}
+                            </label>
                             <div className="form-group">
                                 <Field name="pseudo" className="form-control" placeholder={terms.pseudo} />
                                 {this.showStatutMsg(errors, touched, "pseudo")}
@@ -296,8 +245,8 @@ class ChangeInfo extends Component {
                                 {this.showStatutMsg(errors, touched, "avatar")}
                             </div>
                             <label htmlFor="email" className="color-green">
-                                    {terms.email}
-                                </label>
+                                {terms.email}
+                            </label>
                             <div className="form-group">
                                 <Field type="email" name="email" className="form-control" placeholder={terms.email} />
                                 {this.showStatutMsg(errors, touched, "email")}

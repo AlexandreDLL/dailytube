@@ -1,7 +1,7 @@
 class Rest {
 
     static apiRequest(body, method = 'GET', login = false) {
-        let url = 'http://localhost:3002/';
+        let url = 'http://localhost:3001/';
         let headers = {
             'Content-Type': 'application/json'
         };
@@ -15,6 +15,12 @@ class Rest {
         }
         let options = { method };
         if (method !== 'GET') {
+
+            if (body.url !== undefined) {
+                url += `${body.table}/${body.url}`;
+                delete body.url;
+            }
+            
             if (localStorage.getItem('token') != null) {
                 let token = localStorage.getItem('token');
                 headers = {

@@ -6,61 +6,46 @@ import { Link } from 'react-router-dom';
 
 
 class Videos extends Component {
-    
+
     constructor(props) {
         super(props);
 
         this.state = {
-            nbVideos:0,
+            nbVideos: 0,
             videos: [],
-            isLoaded:false,
-            error:null
+            isLoaded: false,
+            error: null
         }
-        
     }
-    
+
     static contextType = UserContext;
-
-
 
     componentDidMount() {
 
-        const {user} = this.context
+        const { user } = this.context
 
-
-        Rest.apiRequest({table:"video", join:`chaine ON video.id_Chaine=chaine.id_Chaine AND chaine.id_Chaine=${user.id_Chaine}`}).then((response)=>{
-            return response.text().then((resp) => {
-                if (resp) {
-
-                    resp = JSON.parse(resp); 
-                    console.log(resp);
+        Rest.apiRequest({ table: "user", id: user.id_User, action: "chaine", videos: user.id_Chaine}).then(resp => resp.text())
+            .then((resp) => {
+                try {
+                    resp = JSON.parse(resp)
                     this.setState({
                         isLoaded: true,
-                        nbVideos:resp.length,
-                        videos:resp
+                        nbVideos: resp.length,
+                        videos: resp
                     })
                 }
-                else {
+                catch {
                     this.setState({
-                        isLoaded:true, 
-                        error : "Erreur survenue"
+                        isLoaded: true,
+                        error: "Erreur survenue"
                     })
                 }
-            });
-        })
-
-
+            })
     }
 
-
-
     render() {
-        console.log("this.state")
-        console.log(this.state)
-        console.log(this.state.videos[1])
 
         const { error, isLoaded, videos } = this.state;
-
 
         if (error) {
             return (
@@ -97,7 +82,7 @@ class Videos extends Component {
                                 mois = '0' + mois;
                             }
                             date = `${jour}/${mois}/${annee}`;
-                            let vues = item.nb_vue;
+                            let vues = String(item.nb_vue);
                             if (vues > 999 && vues < 1000000) {
                                 let nb = vues.slice(0, -3);
                                 vues = nb + ' k';
@@ -181,15 +166,7 @@ class Videos extends Component {
             );
         }
     }
-
-
-        
-
-
-
-
-
-    }
+}
 
 
 export default Videos;

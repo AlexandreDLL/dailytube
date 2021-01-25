@@ -11,30 +11,24 @@ class MaChaine extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { show: "accueil", nbAbonnes:"", desc:"", idChaine:"" }
-
+        this.state = { show: "accueil", nbAbonnes: "", desc: "", idChaine: "" }
         this.handleInputChange = this.handleInputChange.bind(this)
-
-
     }
 
     handleInputChange(value) {
         this.setState({ desc: value })
-        
     }
 
-
     static contextType = UserContext;
-
 
     displayState = () => {
 
         switch (this.state.show) {
-            case "accueil": return (<Accueil />);
+            case "accueil": return (<Accueil idChaine={this.state.idChaine} />);
 
-            case "videos": return (<Videos />);
+            case "videos": return (<Videos idChaine={this.state.idChaine} />);
 
-            case "apropos": return (<Apropos desc={this.state.desc} idChaine={this.state.idChaine} event="modifApropos"  onValueChange={this.handleInputChange}/>);
+            case "apropos": return (<Apropos desc={this.state.desc} idChaine={this.state.idChaine} event="modifApropos" onValueChange={this.handleInputChange} />);
         }
     }
 
@@ -44,7 +38,6 @@ class MaChaine extends Component {
     setStateVideos() {
         this.setState({ show: "videos" })
     }
-
     setStateApropos() {
         this.setState({ show: "apropos" })
     }
@@ -53,20 +46,17 @@ class MaChaine extends Component {
 
         const { user } = this.context
 
-        Rest.apiRequest({table:"chaine", join:`user ON user.id_Chaine=chaine.id_Chaine AND user.id_User=${user.id_User}`}).then((response)=>{
-            return response.text().then((resp) => {
-                if (resp) {
-
-                    resp = JSON.parse(resp); 
-                    resp = resp[0];
-                    this.setState({ nbAbonnes: resp.nb_abonne })
-                    this.setState({ desc: resp.description_Chaine })
-                    this.setState({ idChaine: resp.id_Chaine })
+        Rest.apiRequest({ table: "user", id: user.id_User, action: "chaine" }).then(resp => resp.text())
+            .then((resp) => {
+                try {
+                    resp = JSON.parse(resp)
+                    if (resp[0]) {
+                        resp = resp[0]
+                        this.setState({ idChaine: resp.id_Chaine, desc: resp.description_Chaine, nbAbonnes: resp.nb_abonne, })
+                    }
                 }
-            });
-
-
-        })
+                catch { }
+            })
     }
 
 
@@ -74,11 +64,8 @@ class MaChaine extends Component {
 
         const { user } = this.context
 
-        
         return (
-
             <>
-
                 <div className="d-flex align-items-center pt-4 pl-3">
                     <img src={user.avatar} style={{ maxHeight: 150, maxWidth: 150 }} />
                     <Col className="mt-3">
@@ -87,9 +74,7 @@ class MaChaine extends Component {
                     </Col>
                     <Button variant="primary">Personnaliser la chaîne</Button>
                     <Button variant="primary ml-3 mr-5">Gérer les vidéos</Button>
-
                 </div>
-
                 <div className="mt-4">
                     <nav variant="tabs">
                         <Nav variant="tabs" defaultActiveKey="/home">
@@ -105,14 +90,9 @@ class MaChaine extends Component {
                         </Nav>
                     </nav>
                 </div>
-
                 <div>
                     {this.displayState()}
                 </div>
-
-
-
-
             </>
         );
     }

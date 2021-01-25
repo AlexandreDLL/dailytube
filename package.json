@@ -17,13 +17,15 @@
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
+    "react-infinite-scroll-component": "^5.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "web-vitals": "^0.2.4",
     "yup": "^0.32.6"
   },
   "scripts": {
-    "start": "set PORT=8000 && react-scripts start",
+    "start": "set REACT_APP_MODE=prod&& set PORT=8000 && react-scripts start",
+    "dev": "set REACT_APP_MODE=dev&& set PORT=8000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

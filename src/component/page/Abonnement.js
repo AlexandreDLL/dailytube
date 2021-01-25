@@ -93,7 +93,7 @@ class Abonnement extends Component {
                                 mois = '0' + mois;
                             }
                             date = `${jour}/${mois}/${annee}`;
-                            let vues = item.nb_vue;
+                            let vues = String(item.nb_vue);
                             if (vues > 999 && vues < 1000000) {
                                 let nb = vues.slice(0, -3);
                                 vues = nb + ' k';
