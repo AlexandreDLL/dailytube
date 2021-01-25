@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import Rest from '../../Rest';
 import Utils from '../../Utils';
-import { Alert, Button } from 'react-bootstrap';
+import { Alert, Button, Form } from 'react-bootstrap';
 import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import UserContext from '../../context/UserContext';
 import { CardVideo } from './component';
@@ -21,7 +21,9 @@ class Video extends Component {
             reponse: [],
             error: null,
             showAll: [],
-            showCommentaire: []
+            showCommentaire: [],
+            abonner: false,
+            checkAbonner: false
         };
         this.handleJaimeVideo = this.handleJaimeVideo.bind(this);
         this.handleJaimePasVideo = this.handleJaimePasVideo.bind(this);
@@ -29,11 +31,14 @@ class Video extends Component {
         this.handleJaimePasCommentaire = this.handleJaimePasCommentaire.bind(this);
         this.fetchMoreDataAll = this.fetchMoreDataAll.bind(this);
         this.fetchMoreDataCommentaire = this.fetchMoreDataCommentaire.bind(this);
+        this.handleKeypress = this.handleKeypress.bind(this);
+        this.handleClickAbonner = this.handleClickAbonner.bind(this);
+        this.commentaireRef = React.createRef();
     }
 
     static contextType = UserContext;
 
-    componentDidMount() {
+    getData() {
         const id = this.props.match.params.id;
 
         Rest.apiRequest({ table: 'video', id: id }).then(resp => resp.text())
@@ -83,8 +88,8 @@ class Video extends Component {
                                                         resp = JSON.parse(resp);
                                                         if (resp) {
                                                             this.setState({
-                                                                isLoaded: true,
-                                                                reponse: resp
+                                                                reponse: resp,
+                                                                isLoaded: true
                                                             });
                                                         }
                                                         else {
@@ -119,7 +124,46 @@ class Video extends Component {
             )
     }
 
-    putJaimeVideo(obj){
+    componentDidMount() {
+        this.getData();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { user } = this.context;
+        if (prevProps.match.params.id !== this.props.match.params.id) {
+            this.getData();
+        }
+        if (user && !this.state.checkAbonner) {
+            let idUser = user.id_User;
+            let idChaine = this.state.video[0].id_Chaine;
+            Rest.apiRequest({ table: 'video', url: 'abonner', idChaine, idUser }).then(resp => resp.text())
+                .then(
+                    resp => {
+                        try {
+                            if (resp) {
+                                resp = JSON.parse(resp);
+                                if (resp.length === 1) {
+                                    this.setState({
+                                        abonner: true,
+                                    });
+                                }
+                                this.setState({
+                                    checkAbonner: true
+                                });
+                            }
+                            else {
+                                console.log(resp);
+                            }
+                        }
+                        catch (e) {
+                            console.log(e);
+                        }
+                    }
+                )
+        }
+    }
+
+    putJaimeVideo(obj) {
         const { user } = this.context;
         const idUser = user.id_User;
         const video = this.state.video[0];
@@ -132,34 +176,34 @@ class Video extends Component {
             idVideo,
             idUser
         }, 'PUT').then(resp => resp.text())
-        .then(
-            resp => {
-                try {
-                    resp = JSON.parse(resp);
-                    if (resp) {
-                        console.log(resp);
+            .then(
+                resp => {
+                    try {
+                        resp = JSON.parse(resp);
+                        if (resp) {
+                            console.log(resp);
+                        }
+                        else {
+                            console.log(resp);
+                        }
                     }
-                    else {
-                        console.log(resp);
+                    catch (e) {
+                        console.log(e);
                     }
                 }
-                catch (e) {
-                    console.log(e);
-                }
-            }
-        )
+            )
     }
 
     handleJaimeVideo() {
         const video = this.state.video[0];
         const nbJaime = video.jaime_Video;
-        this.putJaimeVideo({jaime_Video: nbJaime + 1});
+        this.putJaimeVideo({ jaime_Video: nbJaime + 1 });
     }
 
     handleJaimePasVideo() {
         const video = this.state.video[0];
         const nbJaimePas = video.jaime_pas_Video;
-        this.putJaimeVideo({jaime_pas_Video: nbJaimePas + 1});
+        this.putJaimeVideo({ jaime_pas_Video: nbJaimePas + 1 });
     }
 
     handleJaimeCommentaire() {
@@ -169,6 +213,118 @@ class Video extends Component {
     handleJaimePasCommentaire() {
         console.log('jaime pas !');
     }
+
+    handleKeypress(event) {
+        if (event.key === 'Enter') {
+            const idVideo = this.state.video[0].id_Video;
+            const { user } = this.context;
+            let date = new Date();
+            let currentTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+            let commentaire = {
+                texte_Commentaire: this.commentaireRef.current.value,
+                date_Commentaire: currentTime,
+                jaime_Commentaire: 0,
+                jaime_pas_Commentaire: 0,
+                active_Commentaire: 1,
+                id_User: user.id_User,
+                id_Video: idVideo
+            };
+
+            Rest.apiRequest({
+                table: 'commentaire',
+                params: commentaire
+            }, 'POST').then(resp => resp.text())
+                .then(
+                    resp => {
+                        try {
+                            resp = JSON.parse(resp);
+                            if (resp) {
+                                commentaire.id_Commentaire = resp;
+                                let commentaireArr = this.state.commentaire;
+                                let showCommentaireArr = this.state.showCommentaire;
+                                commentaireArr.unshift(commentaire);
+                                showCommentaireArr.unshift(commentaire);
+                                this.setState({
+                                    commentaire: commentaireArr,
+                                    showCommentaire: showCommentaireArr
+                                });
+                                this.commentaireRef.current.blur();
+                                this.commentaireRef.current.value = '';
+                            }
+                            else {
+                                console.log(resp);
+                            }
+                        }
+                        catch (e) {
+                            console.log(e);
+                        }
+                    }
+                )
+        }
+    }
+
+    handleClickAbonner(event) {
+        const { user } = this.context;
+        const idUser = user.id_User;
+        const idChaine = this.state.video[0].id_Chaine;
+        let value = event.target.textContent;
+
+        if (value === "S'ABONNER") {
+            Rest.apiRequest({
+                table: 'abonner',
+                params: {
+                    id_User: idUser,
+                    id_Chaine: idChaine
+                }
+            }, 'POST').then(resp => resp.text())
+                .then(
+                    resp => {
+                        try {
+                            resp = JSON.parse(resp);
+                            if (resp === 0) {
+                                this.setState({
+                                    abonner: true
+                                });
+                            }
+                            else {
+                                console.log(resp);
+                            }
+                        }
+                        catch (e) {
+                            console.log(e);
+                        }
+                    }
+                )
+        }
+        else {
+            Rest.apiRequest({
+                table: 'abonner',
+                id: idUser,
+                tableId: 'user',
+                joinId: idChaine,
+                joinAs: 'chaine'
+            }, 'DELETE').then(resp => resp.text())
+                .then(
+                    resp => {
+                        try {
+                            resp = JSON.parse(resp);
+                            if (resp) {
+                                this.setState({
+                                    abonner: false
+                                });
+                            }
+                            else {
+                                console.log(resp);
+                            }
+                        }
+                        catch (e) {
+                            console.log(e);
+                        }
+                    }
+                )
+        }
+    }
+
 
     fetchMoreDataAll() {
         let len = this.state.showAll.length;
@@ -232,8 +388,10 @@ class Video extends Component {
                                     return (
                                         <div key={item.id_Video}>
                                             <div>
-                                                <iframe className="w-100" height="753" src="https://www.youtube.com/embed/XQ4pldh_pOA" frameBorder="0"
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" title="video" allowFullScreen></iframe>
+                                                <video className="w-100" controls>
+                                                    <source src={Utils.prefixVideo + item.source} />
+                                                    Votre navigateur ne supporte pas ce format de vidéo.
+                                                </video>
                                             </div>
                                             <div>
                                                 <h1 className="h3 text-white mt-3">{item.titre_Video}</h1>
@@ -247,7 +405,7 @@ class Video extends Component {
                                                     <div className="d-flex align-items-center mr-3">
                                                         <div>{jaime}</div>
                                                         {user ?
-                                                            <AiFillLike className="color-green fs-24 ml-1 cursor-pointer" onClick={this.handleJaimeVideo} title="J'aime ce contenu"/> :
+                                                            <AiFillLike className="color-green fs-24 ml-1 cursor-pointer" onClick={this.handleJaimeVideo} title="J'aime ce contenu" /> :
                                                             <AiFillLike className="color-green fs-24 ml-1" />
                                                         }
                                                     </div>
@@ -264,7 +422,10 @@ class Video extends Component {
                                             <div className="row">
                                                 <Link to="/chaine" className="col-1 d-flex justify-content-center color-green text-decoration-none">
                                                     <div>
-                                                        <img src={item.avatar} alt="avatar" />
+                                                        {item.avatar !== null ?
+                                                            <img src={item.avatar} alt="avatar" /> :
+                                                            <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="avatar" />
+                                                        }
                                                     </div>
                                                 </Link>
                                                 <div className="col-9">
@@ -281,12 +442,32 @@ class Video extends Component {
                                                     </p>
                                                 </div>
                                                 {user && <div className="col-2">
-                                                    <Button variant="outline-green">
-                                                        S'ABONNER
+                                                    <Button variant="outline-green" onClick={this.handleClickAbonner}>
+                                                        {this.state.abonner ?
+                                                            "ABONNÉ" :
+                                                            "S'ABONNER"
+                                                        }
                                                     </Button>
                                                 </div>}
                                             </div>
                                             <hr className="bg-green" />
+                                            {user &&
+                                                <div className="row">
+                                                    <Link to="/chaine" className="col-1 d-flex justify-content-center color-green text-decoration-none">
+                                                        <div>
+                                                            {user.avatar !== null ?
+                                                                <img src={user.avatar} alt="avatar" /> :
+                                                                <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="avatar" style={{ width: 50 }} />
+                                                            }
+                                                        </div>
+                                                    </Link>
+                                                    <Form className="col-11">
+                                                        <Form.Group>
+                                                            <Form.Control id="textarea-commentaire" name="commentaire" ref={this.commentaireRef} as="textarea" rows="3" style={{ resize: 'none' }} onKeyPress={this.handleKeypress} />
+                                                        </Form.Group>
+                                                    </Form>
+                                                </div>
+                                            }
                                         </div>
                                     );
                                 })
@@ -311,7 +492,10 @@ class Video extends Component {
                                                     <div className="row">
                                                         <Link to="/chaine" className="col-1 d-flex justify-content-center color-green text-decoration-none">
                                                             <div>
-                                                                <img src={item.avatar} alt="avatar" />
+                                                                {item.avatar !== null ?
+                                                                    <img src={item.avatar} alt="avatar" /> :
+                                                                    <img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="avatar" style={{ width: 50 }} />
+                                                                }
                                                             </div>
                                                         </Link>
                                                         <div className="col-9">

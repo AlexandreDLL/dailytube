@@ -4,6 +4,7 @@ class Utils {
 
     static prefixUser = config.img.user;
     static prefixLogo = config.img.logo;
+    static prefixVideo = config.video;
 
     static writeNumber(nb) {
         nb = String(nb);
