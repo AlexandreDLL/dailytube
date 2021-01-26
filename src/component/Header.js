@@ -164,8 +164,8 @@ class Header extends React.Component {
                             </div>
                         </Protected>
                     </NavDropdown>
-                    <Form inline className="m-auto w-50 search justify-content-center">
-                        <FormControl type="text" placeholder={this.state.terms.recherche} className="mr-sm-2 w-75" style={{ backgroundColor: "#e2e2e2" }} />
+                    <Form inline className="m-auto w-50 search justify-content-center" action={Utils.prefixUrl}>
+                        <FormControl type="text" name="search" placeholder={this.state.terms.recherche} className="mr-sm-2 w-75" style={{ backgroundColor: "#e2e2e2" }} />
                     </Form>
                     <Protected noauth>
                         <Nav.Link role="button" onClick={handleShow} style={{ padding: "16px 30px" }}>

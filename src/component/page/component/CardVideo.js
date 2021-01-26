@@ -10,7 +10,7 @@ class CardVideo extends Component {
         return (
             <>
                 <Link to={"/video/" + item.id_Video} className="text-decoration-none">
-                    <Card className="bg-black text-white shadow-card" style={{ width: '18rem' }}>
+                    <Card className="bg-black text-white shadow-card h-100" style={{ width: '18rem' }}>
                         <Card.Img variant="top" src={Utils.prefixUser + item.miniature} className="miniature" />
                         <Card.Body>
                             <Card.Title className="t-2" title={item.titre_Video}>{item.titre_Video}</Card.Title>

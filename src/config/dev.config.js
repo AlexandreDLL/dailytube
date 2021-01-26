@@ -1,4 +1,5 @@
 const dev = {
+    baseUrl: 'http://localhost:8000/',
     api: {
         baseUrl: 'http://localhost:3000/'
     },

@@ -2,6 +2,7 @@ import config from "./config";
 
 class Utils {
 
+    static prefixUrl = config.baseUrl;
     static prefixUser = config.img.user;
     static prefixLogo = config.img.logo;
     static prefixVideo = config.video;
