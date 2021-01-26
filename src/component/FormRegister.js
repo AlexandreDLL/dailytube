@@ -156,10 +156,12 @@ class FormRegister extends Component {
                     }}
                     validationSchema={registerSchema}
                     onSubmit={values => {
+                        console.log(values);
                         let date = new Date();
                         let currentTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
                         const body = {
                             table: 'user',
+                            url: 'register',
                             params: {
                                 nom_User: values.nom,
                                 prenom_User: values.prenom,
@@ -169,7 +171,7 @@ class FormRegister extends Component {
                                 avatar: (values.avatar !== '' ? values.avatar : null),
                                 email: values.email,
                                 password: values.password,
-                                active_User: 1,
+                                active_User: 0,
                                 valide_User: 1,
                                 id_Role: 1
                             }

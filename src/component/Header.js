@@ -82,6 +82,11 @@ class Header extends React.Component {
     }
 
     render() {
+        const { user } = this.context;
+        let srcAvatar = Utils.prefixLogo + "logo_DailyTube.png";
+        if (user !== null) {
+            srcAvatar = user.avatar !== null ? user.avatar : Utils.prefixLogo + "logo_DailyTube.png";
+        }
         const handleClose = () => this.setState({ showModal: false });
         const handleShow = () => this.setState({ showModal: true });
         const handleRegister = (error = false) => {
@@ -168,7 +173,7 @@ class Header extends React.Component {
                         </Nav.Link>
                     </Protected>
                     <Protected>
-                        <NavDropdown title={<img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-navbar" />} id="dropdown-account">
+                        <NavDropdown title={<img src={srcAvatar} alt="logo" className="logo-navbar" />} id="dropdown-account">
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/compte" className="color-green text-decoration-none d-flex align-items-center">
                                     {this.state.terms.monCompte}
