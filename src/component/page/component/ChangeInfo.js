@@ -3,9 +3,11 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Button } from 'react-bootstrap';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-import Rest from '../Rest';
+import Rest from "../../../Rest";
+import UserContext from "../../../context/UserContext";
 
-class FormRegister extends Component {
+
+class ChangeInfo extends Component {
 
     constructor(props) {
         super(props);
@@ -15,6 +17,7 @@ class FormRegister extends Component {
         };
     }
 
+    static contextType = UserContext;
 
     showStatutMsg(errors, touched, name) {
         if (errors[name] && touched[name]) {
@@ -51,8 +54,6 @@ class FormRegister extends Component {
                 errMaxPrenom: "Veuillez inscrire un prénom avec moins de 25 caractères",
                 errMaxPseudo: "Veuillez inscrire un pseudo avec moins de 50 caractères",
                 errFormat: "Veuillez sélectionner un bon format d'image.",
-                errMinPassword: "Veuillez inscrire un mot de passe avec 8 caractères minimum.",
-                errConfPassword: "Mot de passe incorrect.",
                 errEmail: "Veuillez inscrire une adresse email valide.",
                 errRequired: "Veuillez remplir ce champ.",
                 nom: 'Votre nom',
@@ -62,10 +63,8 @@ class FormRegister extends Component {
                 image: 'Choisissez votre image de profil : *',
                 format: 'Formats supportés : JPEG, JPG, PNG',
                 email: "Votre email",
-                password: "Votre mot de passe",
-                confPassword: 'Confirmer votre mot de passe',
                 ref: '* Champ NON obligatoire',
-                inscription: 'Inscription'
+                inscription: 'Valider les changements'
             }
         }
         else {
@@ -74,8 +73,6 @@ class FormRegister extends Component {
                 errMaxPrenom: "Please enter a first name with less than 25 characters",
                 errMaxPseudo: "Please enter a nickname with less than 50 characters",
                 errFormat: "Please select a correct image format.",
-                errMinPassword: "Please enter a password with at least 8 characters.",
-                errConfPassword: "Incorrect password.",
                 errEmail: "Please enter a valid email address.",
                 errRequired: "Please fill in this field.",
                 nom: 'Your name',
@@ -85,10 +82,8 @@ class FormRegister extends Component {
                 image: 'Choose your profile picture: *',
                 format: 'Supported formats: JPEG, JPG, PNG',
                 email: "Your email",
-                password: "Your password",
-                confPassword: 'Confirm your password',
                 ref: '* Field NOT mandatory',
-                inscription: 'Registration'
+                inscription: 'Validate changes'
             }
         }
         return terms;
@@ -103,14 +98,14 @@ class FormRegister extends Component {
     // }
 
     render() {
-        let terms = this.createTextLanguage();
 
+        const { user, setUser } = this.context
+        let terms = this.createTextLanguage();
         const supportedFormats = [
             'jpg',
             'jpeg',
             'png'
         ];
-
         const registerSchema = Yup.object().shape({
             nom: Yup.string()
                 .max(35, terms.errMaxNom)
@@ -132,12 +127,6 @@ class FormRegister extends Component {
                 ),
             email: Yup.string()
                 .email(terms.errEmail)
-                .required(terms.errRequired),
-            password: Yup.string()
-                .min(8, terms.errMinPassword)
-                .required(terms.errRequired),
-            confirmPassword: Yup.string()
-                .oneOf([Yup.ref('password'), null], terms.errConfPassword)
                 .required(terms.errRequired)
         });
 
@@ -145,82 +134,95 @@ class FormRegister extends Component {
             <>
                 <Formik
                     initialValues={{
-                        nom: "",
-                        prenom: "",
-                        pseudo: "",
-                        dateNaissance: "",
+                        nom: user.nom_User,
+                        prenom: user.prenom_User,
+                        pseudo: user.pseudo_User,
+                        dateNaissance: String(user.date_naissance),
                         avatar: "",
-                        email: "",
-                        password: "",
-                        confirmPassword: ""
+                        email: user.email,
+
                     }}
                     validationSchema={registerSchema}
                     onSubmit={values => {
-                        console.log(values);
-                        let date = new Date();
-                        let currentTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
                         const body = {
                             table: 'user',
-                            url: 'register',
                             params: {
                                 nom_User: values.nom,
                                 prenom_User: values.prenom,
                                 pseudo_User: values.pseudo,
                                 date_naissance: values.dateNaissance,
-                                date_inscription: currentTime,
                                 avatar: (values.avatar !== '' ? values.avatar : null),
                                 email: values.email,
-                                password: values.password,
-                                active_User: 0,
+                                active_User: 1,
                                 valide_User: 1,
-                                id_Role: 1
-                            }
+                                id_role: user.id_Role,
+                            },
+                            id: user.id_User,
+                            token: localStorage.getItem("token")
                         };
-                        Rest.apiRequest(body, 'POST').then(resp => resp.text())
-                            .then(resp => {
+
+                        Rest.apiRequest({ table: "user", id: user.id_User, verifyName: values.pseudo }).then(resp => resp.text())  // Vérifies qu'un autre user n'a pas le pseudo dans la base de données
+                            .then((resp) => {
                                 try {
                                     resp = JSON.parse(resp);
-                                    if (resp) {
-                                        if (resp === 'pseudo exist') {
-                                            this.setState({
-                                                showErr: true, msgErr: (this.props.language === 'Français' ?
-                                                    "Ce pseudo n'est pas disponible, veuillez en saisir un autre." :
-                                                    "This username is not available, please enter a different one.")
-                                            });
-                                        }
-                                        else if (resp === 'email exist') {
-                                            this.setState({
-                                                showErr: true, msgErr: (this.props.language === 'Français' ?
-                                                    "Un compte existe avec cet email." :
-                                                    "An account exists with this email.")
-                                            });
-                                        }
-                                        else {
-                                            this.props.handleClick();
-                                        }
+                                    if (!resp[0]) {   // Si jamais il n'y a pas d'autre user avec ce pseudo, on continue et on vérifie le mail    
+                                        Rest.apiRequest({ table: "user", id: user.id_User, url: "verify", verifyLogin: values.email }).then(resp => resp.text())  // Vérifies qu'un autre user n'a pas le email dans la base de données
+                                            .then((resp) => {
+                                                try {
+                                                    resp = JSON.parse(resp);
+                                                    if (!resp[0]) {  // Si jamais il n'y a pas d'autre user avec ce pseudo ni ce mail, on va faire l'update
+                                                        Rest.apiRequest(body, "PUT").then(resp => resp.text())
+                                                            .then((resp) => {
+                                                                let newInfoUser = {
+                                                                    nom_User: values.nom,
+                                                                    prenom_User: values.prenom,
+                                                                    pseudo_User: values.pseudo,
+                                                                    date_naissance: values.dateNaissance,
+                                                                    date_inscription: user.date_inscription,
+                                                                    avatar: (values.avatar !== '' ? values.avatar : null),
+                                                                    email: values.email,
+                                                                    active_User: 1,
+                                                                    valide_User: 1,
+                                                                    id_role: user.id_Role,
+                                                                    id_User: user.id_User,
+                                                                    id_Chaine: user.id_Chaine
+                                                                };
+                                                                setUser(newInfoUser)
+                                                                alert("Vos informations ont bien été modifiées")
+                                                                this.props.onValidation(String(newInfoUser.pseudo_User)) // Fais un setState au parent qui ferme le formulaire
+                                                            })
+                                                    } else { // Sinon on s'arrête
+                                                        alert("Email déjà pris")
+                                                    }
+                                                } catch (e) { console.log("error", e) }
+                                            })
+                                    } else { // Sinon on s'arrête
+                                        alert("Pseudo déjà pris")
                                     }
-                                    else {
-                                        this.props.handleClick(true);
-                                    }
-                                }
-                                catch (e) {
-                                    console.log(e);
-                                }
-                            });
-                        // this.moveAvatar(values.avatar);
+                                } catch (e) { console.log("error", e) }
+                            })
                     }}
                 >
                     {({ errors, touched }) => (
                         <Form className="mt-4">
+                            <label htmlFor="nom" className="color-green">
+                                {terms.nom}
+                            </label>
                             <div className="form-group">
                                 <Field name="nom" className="form-control" placeholder={terms.nom} />
                                 {this.showStatutMsg(errors, touched, "nom")}
                             </div>
-                            <div className="form-group mt-5">
+                            <label htmlFor="prenom" className="color-green">
+                                {terms.prenom}
+                            </label>
+                            <div className="form-group">
                                 <Field name="prenom" className="form-control" placeholder={terms.prenom} />
                                 {this.showStatutMsg(errors, touched, "prenom")}
                             </div>
-                            <div className="form-group mt-5">
+                            <label htmlFor="pseudo" className="color-green">
+                                {terms.pseudo}
+                            </label>
+                            <div className="form-group">
                                 <Field name="pseudo" className="form-control" placeholder={terms.pseudo} />
                                 {this.showStatutMsg(errors, touched, "pseudo")}
                             </div>
@@ -242,17 +244,12 @@ class FormRegister extends Component {
                                 <Field type="file" name="avatar" className="form-control" id="avatar-input" />
                                 {this.showStatutMsg(errors, touched, "avatar")}
                             </div>
-                            <div className="form-group mt-5">
+                            <label htmlFor="email" className="color-green">
+                                {terms.email}
+                            </label>
+                            <div className="form-group">
                                 <Field type="email" name="email" className="form-control" placeholder={terms.email} />
                                 {this.showStatutMsg(errors, touched, "email")}
-                            </div>
-                            <div className="form-group mt-5">
-                                <Field type="password" name="password" className="form-control" placeholder={terms.password} />
-                                {this.showStatutMsg(errors, touched, "password")}
-                            </div>
-                            <div className="form-group mt-5 mb-4">
-                                <Field type="password" name="confirmPassword" className="form-control" placeholder={terms.confPassword} />
-                                {this.showStatutMsg(errors, touched, "confirmPassword")}
                             </div>
                             {this.state.showErr ? <small className="text-danger">
                                 <FaTimesCircle /> {this.state.msgErr}
@@ -271,4 +268,4 @@ class FormRegister extends Component {
     }
 }
 
-export { FormRegister };
+export { ChangeInfo };

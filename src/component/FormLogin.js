@@ -12,6 +12,7 @@ class FormLogin extends Component {
         super(props);
         this.state = {
             msgErr: false,
+            msgNotActive: false
         }
     }
 
@@ -27,7 +28,8 @@ class FormLogin extends Component {
                 password: "Votre mot de passe",
                 connexion: 'Connexion',
                 souvenir: 'Se souvenir de moi',
-                msgErr: 'Email ou mot de passe incorrect.'
+                msgErr: 'Email ou mot de passe incorrect.',
+                msgNotActive: "Votre compte n'est pas activer"
             }
         }
         else {
@@ -38,7 +40,8 @@ class FormLogin extends Component {
                 password: "Your password",
                 connexion: 'Login',
                 souvenir: 'Remember me',
-                msgErr: 'Incorrect email or password.'
+                msgErr: 'Incorrect email or password.',
+                msgNotActive: "Your account is not activated"
             }
         }
         return terms;
@@ -71,13 +74,18 @@ class FormLogin extends Component {
                                 try {
                                     resp = JSON.parse(resp);
                                     if (resp) {
-                                        let user = resp.user;
-                                        setUser(user);
-                                        localStorage.setItem('token', resp.token);
-                                        if (values.remember) {
-                                            localStorage.setItem('user', user.id_User);
+                                        if (resp === 'not active') {
+                                            this.setState({ msgNotActive: true });
                                         }
-                                        this.props.handleClick();
+                                        else {
+                                            let user = resp.user;
+                                            setUser(user);
+                                            localStorage.setItem('token', resp.token);
+                                            if (values.remember) {
+                                                localStorage.setItem('user', user.id_User);
+                                            }
+                                            this.props.handleClick();
+                                        }
                                     }
                                     else {
                                         this.setState({ msgErr: true });
@@ -113,6 +121,7 @@ class FormLogin extends Component {
                                 <label htmlFor="remember" className="form-check-label color-green">{terms.souvenir}</label>
                             </div>
                             {this.state.msgErr ? <small className="text-danger">{terms.msgErr}</small> : null}
+                            {this.state.msgNotActive ? <small className="text-danger">{terms.msgNotActive}</small> : null}
                             <Button variant="green" type="submit" className="w-100 mt-4">
                                 {terms.connexion}
                             </Button>

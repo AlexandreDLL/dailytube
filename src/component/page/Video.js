@@ -136,7 +136,7 @@ class Video extends Component {
         if (user && !this.state.checkAbonner) {
             let idUser = user.id_User;
             let idChaine = this.state.video[0].id_Chaine;
-            Rest.apiRequest({ table: 'video', url: 'abonner', idChaine, idUser }).then(resp => resp.text())
+            Rest.apiRequest({ table: 'user', url: 'abonner', idChaine, idUser }).then(resp => resp.text())
                 .then(
                     resp => {
                         try {

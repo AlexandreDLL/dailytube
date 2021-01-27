@@ -82,6 +82,11 @@ class Header extends React.Component {
     }
 
     render() {
+        const { user } = this.context;
+        let srcAvatar = Utils.prefixLogo + "logo_DailyTube.png";
+        if (user !== null) {
+            srcAvatar = user.avatar !== null ? user.avatar : Utils.prefixLogo + "logo_DailyTube.png";
+        }
         const handleClose = () => this.setState({ showModal: false });
         const handleShow = () => this.setState({ showModal: true });
         const handleRegister = (error = false) => {
@@ -159,8 +164,8 @@ class Header extends React.Component {
                             </div>
                         </Protected>
                     </NavDropdown>
-                    <Form inline className="m-auto w-50 search justify-content-center">
-                        <FormControl type="text" placeholder={this.state.terms.recherche} className="mr-sm-2 w-75" style={{ backgroundColor: "#e2e2e2" }} />
+                    <Form inline className="m-auto w-50 search justify-content-center" action={Utils.prefixUrl}>
+                        <FormControl type="text" name="search" placeholder={this.state.terms.recherche} className="mr-sm-2 w-75" style={{ backgroundColor: "#e2e2e2" }} />
                     </Form>
                     <Protected noauth>
                         <Nav.Link role="button" onClick={handleShow} style={{ padding: "16px 30px" }}>
@@ -168,7 +173,7 @@ class Header extends React.Component {
                         </Nav.Link>
                     </Protected>
                     <Protected>
-                        <NavDropdown title={<img src={Utils.prefixLogo + "logo_DailyTube.png"} alt="logo" className="logo-navbar" />} id="dropdown-account">
+                        <NavDropdown title={<img src={srcAvatar} alt="logo" className="logo-navbar" />} id="dropdown-account">
                             <NavDropdown.Item className="my-2" as="div">
                                 <Link to="/compte" className="color-green text-decoration-none d-flex align-items-center">
                                     {this.state.terms.monCompte}
