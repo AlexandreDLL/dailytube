@@ -8,7 +8,7 @@ class MaChaine extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { show: "accueil", nbAbonnes: "", desc: "", idChaine: "" }
+        this.state = { show: "", nbAbonnes: "", desc: "", idChaine: "" }
         this.handleInputChange = this.handleInputChange.bind(this)
     }
 

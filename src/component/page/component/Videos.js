@@ -24,7 +24,7 @@ class Videos extends Component {
 
         const { user } = this.context
 
-        Rest.apiRequest({ table: "user", id: user.id_User, action: "chaine", videos: user.id_Chaine }).then(resp => resp.text())
+        Rest.apiRequest({ table: "chaine", videos: user.id_Chaine, action: "videos",  }).then(resp => resp.text())
             .then((resp) => {
                 try {
                     resp = JSON.parse(resp)

@@ -21,9 +21,9 @@ class Apropos extends Component {
 
     componentDidMount() {
 
-        const { user } = this.context
+        // const { user } = this.context
 
-        Rest.apiRequest({ table: "user", id: user.id_User, action: "chaine", videos: this.props.idChaine }).then(resp => resp.text())
+        Rest.apiRequest({ table: "chaine", idchaine: this.props.idChaine, action: "videos",  }).then(resp => resp.text())
             .then((resp) => {
                 try {
                     resp = JSON.parse(resp)

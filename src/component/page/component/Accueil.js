@@ -27,8 +27,9 @@ class Accueil extends Component {
     componentDidMount() {
 
         const { user } = this.context
+        // console.log("chaine", user.id_Chaine)
 
-        Rest.apiRequest({ table: "user", id: user.id_User, action: "chaine", videos: user.id_Chaine, action2: "last4activevideos" }).then(resp => resp.text())
+        Rest.apiRequest({ table: "chaine", idchaine: user.id_Chaine, action: "videos", action2: "last4activevideos" }).then(resp => resp.text())
             .then((resp) => {
 
                 try {
@@ -55,7 +56,7 @@ class Accueil extends Component {
             })
 
 
-        Rest.apiRequest({ table: "user", id: user.id_User, action: "last4activeplaylists" }).then(resp => resp.text())
+        Rest.apiRequest({ table: "user", id: user.id_User, action : "videos", action2: "last4activeplaylists" }).then(resp => resp.text())
             .then((resp) => {
 
 
