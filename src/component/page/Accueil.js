@@ -110,7 +110,7 @@ class Accueil extends Component {
         }
         else {
             return (
-                <div style={{marginTop: 120}}>
+                <div style={{ marginTop: 120 }}>
                     {user !== null ?
                         user.id_Role === 2 ?
                             <h1 className="text-center color-green">Bonjour Admin {user.prenom_User}</h1> :
@@ -119,14 +119,19 @@ class Accueil extends Component {
                     }
                     <div className="row">
                         {items.map(item => {
-                            let date = new Date(item.date_Video);
-                            date = Utils.writeDateSimple(date);
-                            let vues = Utils.writeNumber(item.nb_vue);
-                            return (
-                                <div key={item.id_Video} className="col-xl-2 col-lg-3 col-sm-6 d-flex justify-content-center mt-5">
-                                    <CardVideo item={item} vues={vues} date={date} desc={true} />
-                                </div>
-                            );
+                            if (item.active_Video === 1) {
+                                let date = new Date(item.date_Video);
+                                date = Utils.writeDateSimple(date);
+                                let vues = Utils.writeNumber(item.nb_vue);
+                                return (
+                                    <div key={item.id_Video} className="col-xl-2 col-lg-3 col-sm-6 d-flex justify-content-center mt-5">
+                                        <CardVideo item={item} vues={vues} date={date} desc={true} />
+                                    </div>
+                                );
+                            }
+                            else {
+                                return false;
+                            }
                         })}
                     </div>
                 </div>

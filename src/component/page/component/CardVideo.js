@@ -5,7 +5,7 @@ import Utils from '../../../Utils';
 
 class CardVideo extends Component {
     render() {
-        const { item, vues, date, desc = false } = this.props;
+        const { item, vues, date, desc = false, showInactive = false } = this.props;
 
         return (
             <>
@@ -14,6 +14,7 @@ class CardVideo extends Component {
                         <Card.Img variant="top" src={Utils.prefixUser + item.miniature} className="miniature" />
                         <Card.Body>
                             <Card.Title className="t-2" title={item.titre_Video}>{item.titre_Video}</Card.Title>
+                            {item.active_Video === 0 && showInactive && <Card.Title className="t-2" title="alert inactive">Video Inactive</Card.Title>}
                             <Card.Text>
                                 {desc && <p className="t-3 m-0" title={item.description_Video}>
                                     {item.description_Video}
