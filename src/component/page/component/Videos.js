@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import UserContext from "../../../context/UserContext";
 import Rest from "../../../Rest";
-import { Card, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 import Utils from '../../../Utils';
 import { CardVideo } from './CardVideo';
 

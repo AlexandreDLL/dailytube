@@ -240,6 +240,8 @@ class Video extends Component {
                             resp = JSON.parse(resp);
                             if (resp) {
                                 commentaire.id_Commentaire = resp;
+                                commentaire.pseudo_User = user.pseudo_User;
+                                commentaire.avatar = user.avatar;
                                 let commentaireArr = this.state.commentaire;
                                 let showCommentaireArr = this.state.showCommentaire;
                                 commentaireArr.unshift(commentaire);
@@ -486,6 +488,7 @@ class Video extends Component {
                                             date = Utils.writeDateSimple(date);
                                             let jaime = Utils.writeNumber(item.jaime_Commentaire);
                                             let jaimePas = Utils.writeNumber(item.jaime_pas_Commentaire);
+                                            const idCommentaire = item.id_Commentaire;
 
                                             return (
                                                 <div key={item.id_Commentaire}>
@@ -527,7 +530,7 @@ class Video extends Component {
 
                                                     {/* Affichage reponse */}
                                                     {reponse.map(item => {
-                                                        if (item.active_Reponse === 1) {
+                                                        if (item.active_Reponse === 1 && item.id_Commentaire === idCommentaire) {
                                                             let date = new Date(item.date_Reponse);
                                                             date = Utils.writeDateSimple(date);
 
